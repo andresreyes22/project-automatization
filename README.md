@@ -1,4 +1,4 @@
-## 🚦 Continuous Integration (CI) with GitHub Actions
+
 
 ## 🚦 Integración Continua (CI) con GitHub Actions
 
