@@ -196,7 +196,7 @@ src/
 
 1. Clona el repositorio:
 ```bash
-git clone <repository-url>
+git clone https://github.com/andresreyes22/project-automatization.git
 cd playwright-fakestore-api-tests
 ```
 
