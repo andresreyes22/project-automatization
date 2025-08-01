@@ -1,0 +1,127 @@
+name: Playwright API Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install Playwright
+      run: npx playwright install --with-deps
+    
+    - name: Run Playwright tests
+      run: npm test
+      env:
+        CI: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-node-${{ matrix.node-version }}
+        path: |
+          playwright-report/
+          test-results/
+          test-results.json
+          test-results.xml
+        retention-days: 30
+    
+    - name: Publish test results
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Playwright Test Results (Node ${{ matrix.node-version }})
+        path: test-results.xml
+        reporter: java-junit
+    
+    - name: Comment PR with test results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          try {
+            const testResults = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
+            const { stats } = testResults;
+            
+            const comment = `
+            ## 🧪 Test Results (Node ${{ matrix.node-version }})
+            
+            - ✅ **Passed**: ${stats.passed || 0}
+            - ❌ **Failed**: ${stats.failed || 0}
+            - ⏭️ **Skipped**: ${stats.skipped || 0}
+            - ⏱️ **Duration**: ${Math.round((stats.duration || 0) / 1000)}s
+            
+            ${stats.failed > 0 ? '❌ Some tests failed. Check the full report for details.' : '✅ All tests passed!'}
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          } catch (error) {
+            console.log('Could not post test results comment:', error.message);
+          }
+  
+  api-health-check:
+    runs-on: ubuntu-latest
+    name: API Health Check
+    
+    steps:
+    - name: Check FakeStore API Health
+      run: |
+        echo "Checking FakeStore API health..."
+        
+        # Test main endpoints
+        curl -f https://fakestoreapi.com/products || exit 1
+        curl -f https://fakestoreapi.com/users || exit 1
+        curl -f https://fakestoreapi.com/carts || exit 1
+        
+        echo "✅ FakeStore API is healthy"
+    
+    - name: Check External APIs Health
+      run: |
+        echo "Checking external APIs health..."
+        
+        # Check JSONPlaceholder
+        curl -f https://jsonplaceholder.typicode.com/users/1 || echo "⚠️ JSONPlaceholder unavailable"
+        
+        # Check Quotable API
+        curl -f https://api.quotable.io/random || echo "⚠️ Quotable API unavailable"
+        
+        # Check Lorem Picsum
+        curl -f https://picsum.photos/100/100 || echo "⚠️ Lorem Picsum unavailable"
+        
+        # Check WorldTime API
+        curl -f https://worldtimeapi.org/api/timezone/UTC || echo "⚠️ WorldTime API unavailable"
+        
+        echo "✅ External API health check complete"
+

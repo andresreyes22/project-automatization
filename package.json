@@ -1,0 +1,35 @@
+{
+  "name": "playwright-fakestore-api-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive API testing suite for FakeStore API using Playwright and TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report",
+    "test:products": "npx playwright test tests/products.spec.ts",
+    "test:users": "npx playwright test tests/users.spec.ts",
+    "test:auth": "npx playwright test tests/auth.spec.ts",
+    "test:carts": "npx playwright test tests/carts.spec.ts"
+  },
+  "keywords": [
+    "playwright",
+    "api-testing",
+    "typescript",
+    "e-commerce",
+    "automation"
+  ],
+  "author": "API Test Engineer",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.9.0"
+  }
+}
