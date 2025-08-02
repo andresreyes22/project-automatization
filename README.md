@@ -137,7 +137,7 @@ jobs:
 
 # Suite Automatizada de Pruebas para FakeStore API
 
-Este repositorio contiene una suite automatizada de pruebas para la API de FakeStore, diseñada específicamente para evaluaciones técnicas y la demostración de buenas prácticas en pruebas de APIs. La suite está implementada con Playwright y TypeScript, y cubre todos los endpoints requeridos y criterios de evaluación técnica.
+Este repositorio contiene una suite automatizada de pruebas para la API de FakeStore, diseñada específicamente para la demostración de buenas prácticas en pruebas de APIs. La suite está implementada con Playwright y TypeScript, y cubre todos los endpoints requeridos y criterios de evaluación técnica.
 
 
 ## 🎯 Descripción General del Proyecto
