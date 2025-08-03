@@ -66,7 +66,7 @@ export class UsersMock {
    * Valid login credentials
    */
   static readonly validLoginCredentials: LoginCredentials = {
-    username: "mor_2314",
+    username: "prueba_2314",
     password: "83r5^_"
   };
 

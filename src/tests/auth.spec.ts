@@ -14,6 +14,7 @@ test.describe('Authentication API Tests', () => {
     test('should successfully authenticate with valid credentials', async () => {
       const credentials = UsersMock.validLoginCredentials;
       const response = await authApi.login(credentials);
+      console.log('🔍 login(valid credentials) response:', response);
       
       expect(response.success, '❌ Authentication with valid credentials should succeed').toBeTruthy();
       expect(response.status, '❌ Status for successful authentication should be 200').toBe(200);
@@ -29,9 +30,11 @@ test.describe('Authentication API Tests', () => {
     test('should reject authentication with invalid credentials', async () => {
       const invalidCredentials = UsersMock.invalidLoginCredentials;
       const response = await authApi.login(invalidCredentials);
+      console.log('🔍 login(invalid credentials) response:', response);
       
-      // API might return 401 unauthorized or other error status
-      expect([401, 400, 404], '❌ Status for invalid credentials should be 401, 400, or 404').toContain(response.status);
+      // La autenticación debe fallar estrictamente: nunca aceptar 200
+      expect([401, 400, 404], '❌ El status para credenciales inválidas NUNCA debe ser 200. Solo se acepta 401, 400 o 404').toContain(response.status);
+      expect(response.status, '❌ Nunca debe ser 200 ante credenciales inválidas').not.toBe(200);
       expect(response.success, '❌ Authentication with invalid credentials should not succeed').toBeFalsy();
     });
 
@@ -40,8 +43,8 @@ test.describe('Authentication API Tests', () => {
         username: '',
         password: 'somepassword'
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(empty username) response:', response);
       
       expect([400, 401], '❌ Status for empty username should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with empty username should not succeed').toBeFalsy();
@@ -52,8 +55,8 @@ test.describe('Authentication API Tests', () => {
         username: 'someuser',
         password: ''
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(empty password) response:', response);
       
       expect([400, 401], '❌ Status for empty password should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with empty password should not succeed').toBeFalsy();
@@ -63,8 +66,8 @@ test.describe('Authentication API Tests', () => {
       const credentials = {
         password: 'somepassword'
       } as any;
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(missing username) response:', response);
       
       expect([400, 401], '❌ Status for missing username should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with missing username should not succeed').toBeFalsy();
@@ -74,8 +77,8 @@ test.describe('Authentication API Tests', () => {
       const credentials = {
         username: 'someuser'
       } as any;
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(missing password) response:', response);
       
       expect([400, 401], '❌ Status for missing password should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with missing password should not succeed').toBeFalsy();
@@ -86,8 +89,8 @@ test.describe('Authentication API Tests', () => {
         username: 'user@#$%',
         password: 'pass!@#$%^&*()'
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(special characters) response:', response);
       
       // API should handle special characters appropriately
       expect([200, 400, 401], '❌ Status for special characters should be 200, 400, or 401').toContain(response.status);
@@ -99,8 +102,8 @@ test.describe('Authentication API Tests', () => {
         username: longString,
         password: longString
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(very long credentials) response:', response);
       
       // API should handle oversized inputs gracefully
       expect([400, 401, 413], '❌ Status for very long credentials should be 400, 401, or 413').toContain(response.status);
@@ -111,8 +114,8 @@ test.describe('Authentication API Tests', () => {
         username: null,
         password: null
       } as any;
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(null values) response:', response);
       
       expect([400, 401], '❌ Status for null values should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with null values should not succeed').toBeFalsy();
@@ -123,8 +126,8 @@ test.describe('Authentication API Tests', () => {
         username: 123,
         password: true
       } as any;
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(non-string values) response:', response);
       
       expect([400, 401], '❌ Status for non-string values should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with non-string values should not succeed').toBeFalsy();
@@ -135,8 +138,8 @@ test.describe('Authentication API Tests', () => {
         username: "admin'; DROP TABLE users; --",
         password: "' OR '1'='1"
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(SQL injection) response:', response);
       
       // API should safely handle SQL injection attempts
       expect([400, 401], '❌ Status for SQL injection attempt should be 400 or 401').toContain(response.status);
@@ -148,9 +151,9 @@ test.describe('Authentication API Tests', () => {
         username: "<script>alert('xss')</script>",
         password: "<img src=x onerror=alert('xss')>"
       };
-      
       const response = await authApi.login(credentials);
-      
+      console.log('🔍 login(XSS attempt) response:', response);
+
       // API should safely handle XSS attempts
       expect([400, 401], '❌ Status for XSS attempt should be 400 or 401').toContain(response.status);
       expect(response.success, '❌ Authentication with XSS should not succeed').toBeFalsy();
@@ -159,6 +162,7 @@ test.describe('Authentication API Tests', () => {
     test('should validate JWT token structure when authentication succeeds', async () => {
       const credentials = UsersMock.validLoginCredentials;
       const response = await authApi.login(credentials);
+      console.log('🔍 login(validate JWT) response:', response);
       
       if (response.success && response.data?.token) {
         const token = response.data.token;
@@ -181,12 +185,11 @@ test.describe('Authentication API Tests', () => {
     test('should handle concurrent authentication requests', async () => {
       const credentials = UsersMock.validLoginCredentials;
       const numberOfRequests = 5;
-      
       const authPromises = Array(numberOfRequests).fill(null).map(() => 
         authApi.login(credentials)
       );
-      
       const responses = await Promise.all(authPromises);
+      console.log('🔍 login(concurrent) responses:', responses);
       
       // All requests should succeed (or fail consistently)
       const statuses = responses.map(r => r.status);
@@ -201,8 +204,8 @@ test.describe('Authentication API Tests', () => {
         username: UsersMock.validLoginCredentials.username.toUpperCase(),
         password: UsersMock.validLoginCredentials.password
       };
-      
       const response = await authApi.login(credentials);
+      console.log('🔍 login(different case username) response:', response);
       
       // API might be case-sensitive or case-insensitive
       expect([200, 401], '❌ Status for username with different case should be 200 or 401').toContain(response.status);
@@ -211,20 +214,17 @@ test.describe('Authentication API Tests', () => {
     test('should handle authentication rate limiting gracefully', async () => {
       const credentials = UsersMock.invalidLoginCredentials;
       const numberOfAttempts = 10;
-      
       const responses = [];
       for (let i = 0; i < numberOfAttempts; i++) {
         const response = await authApi.login(credentials);
         responses.push(response);
-        
+        console.log(`🔍 login(rate limit) response [${i}]:`, response);
         // Short delay between requests
         await new Promise(resolve => setTimeout(resolve, 100));
       }
-      
       // Check if rate limiting is implemented
       const statusCodes = responses.map(r => r.status);
       const hasRateLimiting = statusCodes.some(status => status === 429);
-      
       if (hasRateLimiting) {
         console.log('Rate limiting detected');
         expect(statusCodes, '❌ Status 429 should be present if rate limiting is implemented').toContain(429);
@@ -269,8 +269,10 @@ test.describe('Authentication API Tests', () => {
       // This test demonstrates error handling for malformed requests
       try {
         const response = await authApi.login('not-an-object' as any);
+        console.log('🔍 login(malformed JSON) response:', response);
         expect([400, 401], '❌ Status for malformed JSON should be 400 or 401').toContain(response.status);
       } catch (error) {
+        console.log('🔍 login(malformed JSON) error:', error);
         expect(error).toBeDefined();
       }
     });
@@ -280,9 +282,11 @@ test.describe('Authentication API Tests', () => {
       // For now, we ensure the API handles basic error scenarios
       try {
         const response = await authApi.login(UsersMock.validLoginCredentials);
+        console.log('🔍 login(network timeout) response:', response);
         expect(response, '❌ Response should not be undefined in case of timeout').toBeDefined();
         expect(typeof response.status, '❌ Status should be a number in case of timeout').toBe('number');
       } catch (error) {
+        console.log('🔍 login(network timeout) error:', error);
         expect(error).toBeDefined();
       }
     });

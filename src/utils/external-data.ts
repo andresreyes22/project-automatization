@@ -1,4 +1,11 @@
+
 import { APIRequestContext } from '@playwright/test';
+
+// Leer URLs de APIs externas desde variables de entorno
+const JSONPLACEHOLDER_URL = process.env.JSONPLACEHOLDER_URL || 'https://jsonplaceholder.typicode.com';
+const QUOTABLE_API_URL = process.env.QUOTABLE_API_URL || 'https://api.quotable.io';
+const PICSUM_URL = process.env.PICSUM_URL || 'https://picsum.photos';
+const WORLDTIME_API_URL = process.env.WORLDTIME_API_URL || 'https://worldtimeapi.org';
 
 /**
  * Utility class for fetching external data for testing
@@ -16,9 +23,8 @@ export class ExternalDataProvider {
    */
   async getRandomUserFromJsonPlaceholder(): Promise<any> {
     try {
-      const response = await this.request.get('https://jsonplaceholder.typicode.com/users/1');
+      const response = await this.request.get(`${JSONPLACEHOLDER_URL}/users/1`);
       const userData = await response.json();
-      
       // Transform JSONPlaceholder user data to FakeStore format
       return {
         email: userData.email,
@@ -41,8 +47,28 @@ export class ExternalDataProvider {
         phone: userData.phone
       };
     } catch (error) {
-      console.error('Failed to fetch external user data:', error);
-      throw new Error('External API unavailable');
+      console.error('Fallo al obtener usuario externo, usando datos mockeados:', error);
+      // Datos mockeados realistas en formato FakeStore
+      return {
+        email: 'mockuser@demo.com',
+        username: 'mockuser',
+        password: 'mock1234',
+        name: {
+          firstname: 'mock',
+          lastname: 'user'
+        },
+        address: {
+          city: 'Ciudad Demo',
+          street: 'Calle Falsa',
+          number: 123,
+          zipcode: '00000',
+          geolocation: {
+            lat: '0.0000',
+            long: '0.0000'
+          }
+        },
+        phone: '123-456-7890'
+      };
     }
   }
 
@@ -52,12 +78,12 @@ export class ExternalDataProvider {
    */
   async getRandomQuoteForProductDescription(): Promise<string> {
     try {
-      const response = await this.request.get('https://api.quotable.io/random?maxLength=100');
+      const response = await this.request.get(`${QUOTABLE_API_URL}/random?maxLength=100`);
       const quoteData = await response.json();
       return quoteData.content;
     } catch (error) {
-      console.error('Failed to fetch external quote:', error);
-      return 'Default product description when external API is unavailable';
+      console.error('Fallo al obtener frase externa, usando descripción mockeada:', error);
+      return 'Descripción de producto mockeada por indisponibilidad de la API externa.';
     }
   }
 
@@ -70,8 +96,7 @@ export class ExternalDataProvider {
   async getRandomImageUrl(width: number = 400, height: number = 400): Promise<string> {
     try {
       // Lorem Picsum provides random images
-      const imageUrl = `https://picsum.photos/${width}/${height}`;
-      
+      const imageUrl = `${PICSUM_URL}/${width}/${height}`;
       // Verify the image URL is accessible
       const response = await this.request.get(imageUrl);
       if (response.status() === 200) {
@@ -79,8 +104,8 @@ export class ExternalDataProvider {
       }
       throw new Error('Image not accessible');
     } catch (error) {
-      console.error('Failed to fetch external image:', error);
-      return 'https://via.placeholder.com/400x400'; // Fallback placeholder
+      console.error('Fallo al obtener imagen externa, usando imagen mockeada:', error);
+      return 'https://via.placeholder.com/400x400'; // Imagen mockeada
     }
   }
 
@@ -90,12 +115,13 @@ export class ExternalDataProvider {
    */
   async getCurrentDateFromWorldTimeApi(): Promise<string> {
     try {
-      const response = await this.request.get('https://worldtimeapi.org/api/timezone/UTC');
+      const response = await this.request.get(`${WORLDTIME_API_URL}/api/timezone/UTC`);
       const timeData = await response.json();
       return timeData.utc_datetime;
     } catch (error) {
-      console.error('Failed to fetch external date:', error);
-      return new Date().toISOString(); // Fallback to local date
+      console.error('Fallo al obtener fecha externa, usando fecha mockeada:', error);
+      // Fecha mockeada: fecha local ISO
+      return new Date().toISOString();
     }
   }
 
@@ -117,22 +143,22 @@ export class ExternalDataProvider {
     };
 
     try {
-      const jsonPlaceholderResponse = await this.request.get('https://jsonplaceholder.typicode.com/users/1');
+      const jsonPlaceholderResponse = await this.request.get(`${JSONPLACEHOLDER_URL}/users/1`);
       results.jsonPlaceholder = jsonPlaceholderResponse.status() === 200;
     } catch {}
 
     try {
-      const quotableResponse = await this.request.get('https://api.quotable.io/random');
+      const quotableResponse = await this.request.get(`${QUOTABLE_API_URL}/random`);
       results.quotable = quotableResponse.status() === 200;
     } catch {}
 
     try {
-      const picsumResponse = await this.request.get('https://picsum.photos/100/100');
+      const picsumResponse = await this.request.get(`${PICSUM_URL}/100/100`);
       results.picsum = picsumResponse.status() === 200;
     } catch {}
 
     try {
-      const worldTimeResponse = await this.request.get('https://worldtimeapi.org/api/timezone/UTC');
+      const worldTimeResponse = await this.request.get(`${WORLDTIME_API_URL}/api/timezone/UTC`);
       results.worldTime = worldTimeResponse.status() === 200;
     } catch {}
 

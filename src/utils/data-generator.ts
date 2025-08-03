@@ -1,15 +1,16 @@
+
+
 import { faker } from '@faker-js/faker';
 import { CreateUserRequest } from '../interfaces/user.interface';
 import { CreateProductRequest } from '../interfaces/product.interface';
 import { CreateCartRequest } from '../interfaces/cart.interface';
 
+
 /**
- * Utility class for generating test data using faker library
+ * Clase utilitaria para generar datos de prueba usando faker
  */
 export class DataGenerator {
-  /**
-   * Generate random user data using faker
-   */
+  /** Genera datos de usuario aleatorios */
   static generateRandomUser(): CreateUserRequest {
     return {
       email: faker.internet.email(),
@@ -33,34 +34,26 @@ export class DataGenerator {
     };
   }
 
-  /**
-   * Generate random product data using faker
-   */
+  /** Genera datos de producto aleatorios */
   static generateRandomProduct(): CreateProductRequest {
     const categories = ["electronics", "jewelery", "men's clothing", "women's clothing"];
     return {
       title: faker.commerce.productName(),
       price: parseFloat(faker.commerce.price()),
       description: faker.commerce.productDescription(),
-      image: faker.image.urlPicsumPhotos({ width: 400, height: 400 }),
+      // Usar la URL base de Picsum si está definida en el entorno
+      image: `${process.env.PICSUM_URL || 'https://picsum.photos'}/400/400`,
       category: faker.helpers.arrayElement(categories)
     };
   }
 
-  /**
-   * Generate random cart data using faker
-   */
+  /** Genera datos de carrito aleatorios */
   static generateRandomCart(): CreateCartRequest {
     const numProducts = faker.number.int({ min: 1, max: 5 });
-    const products = [];
-
-    for (let i = 0; i < numProducts; i++) {
-      products.push({
-        productId: faker.number.int({ min: 1, max: 20 }),
-        quantity: faker.number.int({ min: 1, max: 10 })
-      });
-    }
-
+    const products = Array.from({ length: numProducts }, () => ({
+      productId: faker.number.int({ min: 1, max: 20 }),
+      quantity: faker.number.int({ min: 1, max: 10 })
+    }));
     return {
       userId: faker.number.int({ min: 1, max: 10 }),
       date: faker.date.recent().toISOString(),
@@ -68,9 +61,7 @@ export class DataGenerator {
     };
   }
 
-  /**
-   * Generate invalid email addresses for negative testing
-   */
+  /** Genera emails inválidos para pruebas negativas */
   static generateInvalidEmails(): string[] {
     return [
       'invalid-email',
@@ -83,26 +74,22 @@ export class DataGenerator {
     ];
   }
 
-  /**
-   * Generate edge case strings for testing
-   */
+  /** Genera cadenas edge case para pruebas */
   static generateEdgeCaseStrings(): string[] {
     return [
-      '', // Empty string
-      ' ', // Whitespace
-      '   ', // Multiple whitespaces
-      'a'.repeat(1000), // Very long string
-      '!@#$%^&*()_+', // Special characters
-      '12345', // Numeric string
+      '', // Cadena vacía
+      ' ', // Espacio
+      '   ', // Varios espacios
+      'a'.repeat(1000), // Cadena muy larga
+      '!@#$%^&*()_+', // Caracteres especiales
+      '12345', // Cadena numérica
       'null', // String 'null'
       'undefined', // String 'undefined'
-      '<script>alert("xss")</script>' // XSS attempt
+      '<script>alert("xss")</script>' // Intento de XSS
     ];
   }
 
-  /**
-   * Generate boundary numbers for testing
-   */
+  /** Genera números límite para pruebas */
   static generateBoundaryNumbers(): number[] {
     return [
       0,

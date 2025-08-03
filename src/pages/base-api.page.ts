@@ -8,9 +8,10 @@ export class BaseApiPage {
   protected request: APIRequestContext;
   protected baseUrl: string;
 
-  constructor(request: APIRequestContext, baseUrl: string = 'https://fakestoreapi.com') {
+  constructor(request: APIRequestContext, baseUrl?: string) {
     this.request = request;
-    this.baseUrl = baseUrl;
+    // Usa BASE_URL de .env si está definida, si no, usa el valor por defecto
+    this.baseUrl = baseUrl || process.env.BASE_URL || 'https://fakestoreapi.com';
   }
 
   /**
@@ -44,10 +45,9 @@ export class BaseApiPage {
   protected async post<T>(endpoint: string, body: any, expectedStatus: number = 200): Promise<ApiResponse<T>> {
     try {
       const response = await this.request.post(`${this.baseUrl}${endpoint}`, {
-        data: body
-      });
+        json: body
+      } as any);
       const data = await response.json();
-      
       return {
         success: response.status() === expectedStatus,
         data: data,
@@ -68,10 +68,9 @@ export class BaseApiPage {
   protected async put<T>(endpoint: string, body: any, expectedStatus: number = 200): Promise<ApiResponse<T>> {
     try {
       const response = await this.request.put(`${this.baseUrl}${endpoint}`, {
-        data: body
-      });
+        json: body
+      } as any);
       const data = await response.json();
-      
       return {
         success: response.status() === expectedStatus,
         data: data,
