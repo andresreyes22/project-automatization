@@ -347,20 +347,28 @@ BASE_URL=https://fakestoreapi.com
 TEST_TIMEOUT=30000
 ```
 
-## 🚦 Integración CI/CD
 
-### Configuración de GitHub Actions
-El proyecto incluye un workflow de GitHub Actions (`.github/workflows/playwright.yml`) que:
-- Instala dependencias
-- Ejecuta toda la suite de pruebas
-- Genera y publica reportes de pruebas
-- Soporta múltiples versiones de Node.js
+## 🚦 Integración CI/CD: Jenkins y GitHub Actions
 
-### Ejecución en CI
-```yaml
-- name: Ejecutar pruebas Playwright
-  run: npm test
-```
+Este proyecto incluye dos opciones listas para integración continua y entrega continua (CI/CD):
+
+### 1. Jenkins (`Jenkinsfile`)
+- El archivo `Jenkinsfile` en la raíz del repositorio permite ejecutar la suite de pruebas Playwright en un servidor Jenkins.
+- Automatiza la descarga del código, instalación de dependencias, ejecución de pruebas y publicación de reportes (HTML y log).
+- Incluye notificación por correo electrónico (requiere configuración en Jenkins).
+- Ideal para entornos empresariales o servidores propios.
+
+### 2. GitHub Actions (`.github/workflows/playwright.yml`)
+- El workflow `.yml` permite CI/CD directamente en GitHub Actions.
+- Instala dependencias, ejecuta pruebas, publica reportes y soporta múltiples versiones de Node.js.
+- Notifica resultados y publica artefactos en la pestaña Actions de GitHub.
+- Ideal para proyectos open source o repositorios en GitHub.
+
+### ¿Cuál usar?
+- Puedes usar ambos en paralelo o elegir el que mejor se adapte a tu infraestructura.
+- Ambos pipelines están documentados y listos para usar sin configuración adicional, salvo los datos de acceso y notificaciones.
+
+---
 
 ## 📝 Decisiones Técnicas
 
