@@ -8,7 +8,7 @@ Durante la ejecución de los tests automatizados sobre la API pública https://f
 ## 2. Respuestas inconsistentes de FakeStoreAPI
 - FakeStoreAPI es una API de demostración y, en ocasiones, responde con códigos de estado inesperados (por ejemplo, 200 o 500 en vez de 404/401 para recursos inexistentes o datos inválidos). Esto genera fallos en los asserts más estrictos de los tests.
 - En un entorno real, se esperaría una respuesta más consistente y acorde a los estándares REST (por ejemplo, 404 para recursos no encontrados, 400 para datos inválidos, 401 para autenticación fallida, etc.).
-- Los tests han sido diseñados para cubrir los casos ideales, pero en los casos donde la API es inconsistente.
+- Los tests han sido diseñados para cubrir los casos ideales,donde la API es inconsistente.
 
 ## 3. Validación del código implementado
 - Se verificó que los requests enviados desde los tests son correctos y equivalentes a los realizados desde Postman (headers, body, formato, etc.).
