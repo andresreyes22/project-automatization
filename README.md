@@ -8,15 +8,15 @@ Durante la ejecución de los tests automatizados sobre la API pública https://f
 ## 2. Respuestas inconsistentes de FakeStoreAPI
 - FakeStoreAPI es una API de demostración y, en ocasiones, responde con códigos de estado inesperados (por ejemplo, 200 o 500 en vez de 404/401 para recursos inexistentes o datos inválidos). Esto genera fallos en los asserts más estrictos de los tests.
 - En un entorno real, se esperaría una respuesta más consistente y acorde a los estándares REST (por ejemplo, 404 para recursos no encontrados, 400 para datos inválidos, 401 para autenticación fallida, etc.).
-- Los tests han sido diseñados para cubrir los casos ideales, pero en los casos donde la API es inconsistente.
+- Los tests han sido diseñados para cubrir los casos ideales,donde la API es inconsistente.
 
 ## 3. Validación del código implementado
 - Se verificó que los requests enviados desde los tests son correctos y equivalentes a los realizados desde Postman (headers, body, formato, etc.).
 - Los fallos observados **no corresponden a errores de lógica en el código de automatización**, sino a limitaciones o comportamientos inesperados de la API de demo o de los servicios externos.
 
 ## 4. Recomendaciones
-- Para una API real de producción, los asserts deberían ser estrictos y esperar siempre los códigos de estado correctos.
-- Para pruebas técnicas con APIs públicas de demostración, es importante documentar estos hallazgos y justificar cualquier flexibilidad en los asserts.
+- Para una API real de producción, los asserts deberían ser estrictos y esperar siempre los códigos de estado correctos, por ende se debe validar el comportamiento de la api de prueba para mitigar estos posibles errores 
+
 
 ---
 **En resumen:** Los tests están correctamente implementados y cubren los casos de negocio requeridos. Los fallos observados se deben a la naturaleza de la API pública y a la dependencia de servicios externos, no a errores en la lógica del código.
@@ -426,14 +426,6 @@ Este proyecto incluye dos opciones listas para integración continua y entrega c
 - Validación de cantidad de productos
 - Verificación de eliminación de carritos
 - Integración de fechas externas
-
-## 🤝 Contribuciones
-
-1. Haz un fork del repositorio
-2. Crea una rama de feature
-3. Agrega pruebas completas para nuevas funcionalidades
-4. Asegúrate de que todas las pruebas pasen
-5. Envía un pull request
 
 ## 🆘 Solución de Problemas
 
