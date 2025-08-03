@@ -459,9 +459,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 
 ## Autenticación (`auth.spec.ts`)
 
-### POST /auth/login - User Authentication
+### POST /auth/login - Autenticación de Usuario
 
-#### Test: should successfully authenticate with valid credentials
+#### Prueba: debería autenticar exitosamente con credenciales válidas
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Usuario válido registrado en el sistema
 **Datos de entrada:** username y password válidos
@@ -472,7 +472,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta contiene un token JWT válido y no vacío
 - Campo `success` es true
 
-#### Test: should reject authentication with invalid credentials
+#### Prueba: debería rechazar autenticación con credenciales inválidas
 **Tipo de prueba:** Funcional negativa
 **Precondiciones:** Usuario inválido/no registrado
 **Datos de entrada:** username y/o password incorrectos
@@ -482,7 +482,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 401, 400 o 404 (nunca 200)
 - Campo `success` es false
 
-#### Test: should reject authentication with empty username
+#### Prueba: debería rechazar autenticación con username vacío
 **Tipo de prueba:** Validación de campos obligatorios
 **Precondiciones:** N/A
 **Datos de entrada:** username vacío, password válido
@@ -492,7 +492,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should reject authentication with empty password
+#### Prueba: debería rechazar autenticación con password vacío
 **Tipo de prueba:** Validación de campos obligatorios
 **Precondiciones:** N/A
 **Datos de entrada:** username válido, password vacío
@@ -502,7 +502,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should reject authentication with missing username field
+#### Prueba: debería rechazar autenticación sin campo username
 **Tipo de prueba:** Validación de campos obligatorios
 **Precondiciones:** N/A
 **Datos de entrada:** Solo password
@@ -512,7 +512,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should reject authentication with missing password field
+#### Prueba: debería rechazar autenticación sin campo password
 **Tipo de prueba:** Validación de campos obligatorios
 **Precondiciones:** N/A
 **Datos de entrada:** Solo username
@@ -522,7 +522,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should handle authentication with special characters in credentials
+#### Prueba: debería manejar autenticación con caracteres especiales
 **Tipo de prueba:** Seguridad (robustez ante caracteres especiales)
 **Precondiciones:** N/A
 **Datos de entrada:** username y password con caracteres especiales
@@ -531,7 +531,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200, 400 o 401
 
-#### Test: should handle authentication with very long credentials
+#### Prueba: debería manejar autenticación con credenciales muy largas
 **Tipo de prueba:** Límite de datos
 **Precondiciones:** N/A
 **Datos de entrada:** username y password de 1000 caracteres
@@ -540,7 +540,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 400, 401 o 413
 
-#### Test: should handle authentication with null values
+#### Prueba: debería manejar autenticación con valores null
 **Tipo de prueba:** Validación de tipos
 **Precondiciones:** N/A
 **Datos de entrada:** username y password null
@@ -550,7 +550,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should handle authentication with non-string values
+#### Prueba: debería manejar autenticación con valores no string
 **Tipo de prueba:** Validación de tipos
 **Precondiciones:** N/A
 **Datos de entrada:** username numérico, password booleano
@@ -560,7 +560,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should handle authentication with SQL injection attempts
+#### Prueba: debería manejar intento de inyección SQL
 **Tipo de prueba:** Seguridad (inyección SQL)
 **Precondiciones:** N/A
 **Datos de entrada:** username y password con payload de inyección SQL
@@ -570,7 +570,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should handle authentication with XSS attempts
+#### Prueba: debería manejar intento de XSS
 **Tipo de prueba:** Seguridad (XSS)
 **Precondiciones:** N/A
 **Datos de entrada:** username y password con payload XSS
@@ -580,7 +580,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 400 o 401
 - Campo `success` es false
 
-#### Test: should validate JWT token structure when authentication succeeds
+#### Prueba: debería validar la estructura del token JWT cuando la autenticación es exitosa
 **Tipo de prueba:** Validación de formato de token
 **Precondiciones:** Login exitoso
 **Datos de entrada:** Credenciales válidas
@@ -590,7 +590,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Token con 3 partes separadas por punto, cada parte no vacía, primer segmento base64
 
-#### Test: should handle concurrent authentication requests
+#### Prueba: debería manejar autenticaciones concurrentes
 **Tipo de prueba:** Concurrencia
 **Precondiciones:** Usuario válido
 **Datos de entrada:** Credenciales válidas
@@ -599,7 +599,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Todas las respuestas tienen el mismo status (máximo 2 diferentes por rate limit)
 
-#### Test: should handle authentication with different case username
+#### Prueba: debería manejar autenticación con username en mayúsculas
 **Tipo de prueba:** Sensibilidad a mayúsculas/minúsculas
 **Precondiciones:** Usuario válido
 **Datos de entrada:** username en mayúsculas, password válido
@@ -608,7 +608,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200 o 401
 
-#### Test: should handle authentication rate limiting gracefully
+#### Prueba: debería manejar rate limiting en autenticación
 **Tipo de prueba:** Límite de tasa (rate limiting)
 **Precondiciones:** Usuario inválido
 **Datos de entrada:** Credenciales inválidas
@@ -618,9 +618,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Si hay rate limit: status 429 presente
 - Si no: todos 400 o 401
 
-### Token Validation Utility Tests
+### Pruebas de Utilidad de Validación de Token
 
-#### Test: should validate correct JWT token format
+#### Prueba: debería validar el formato correcto del token JWT
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** N/A
 **Datos de entrada:** Token JWT válido
@@ -629,7 +629,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Token válido pasa la validación
 
-#### Test: should reject invalid token formats
+#### Prueba: debería rechazar formatos de token inválidos
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** N/A
 **Datos de entrada:** Tokens inválidos (vacío, partes incorrectas)
@@ -638,9 +638,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Todos los tokens inválidos fallan la validación
 
-### Error Handling and Edge Cases
+### Manejo de Errores y Casos Límite
 
-#### Test: should handle malformed JSON in login request
+#### Prueba: debería manejar JSON malformado en la solicitud de inicio de sesión
 **Tipo de prueba:** Manejo de errores
 **Precondiciones:** N/A
 **Datos de entrada:** JSON malformado
@@ -649,7 +649,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 400 o 401, o error manejado
 
-#### Test: should handle network timeout in authentication
+#### Prueba: debería manejar timeout de red en la autenticación
 **Tipo de prueba:** Manejo de errores de red
 **Precondiciones:** N/A
 **Datos de entrada:** N/A
@@ -663,9 +663,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 
 ## Productos (`products.spec.ts`)
 
-### GET /products - Get All Products
+### GET /products - Obtener Todos los Productos
 
-#### Test: should successfully retrieve all products
+#### Prueba: debería obtener exitosamente todos los productos
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Productos existentes en la base de datos
 **Datos de entrada:** N/A
@@ -677,7 +677,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Cada producto tiene los campos requeridos
 **Estimación:** 1 SP
 
-#### Test: should retrieve products with limit and sort parameters
+#### Prueba: debería obtener productos con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
 **Precondiciones:** Productos existentes
 **Datos de entrada:** Parámetro limit=5, sort='desc'
@@ -688,7 +688,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Array de productos con longitud <= 5
 **Estimación:** 1 SP
 
-#### Test: should handle invalid limit parameter gracefully
+#### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** limit=-1
@@ -699,9 +699,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta es un array (puede ser vacío)
 **Estimación:** 1 SP
 
-### GET /products/{id} - Get Product by ID
+### GET /products/{id} - Obtener Producto por ID
 
-#### Test: should successfully retrieve a specific product
+#### Prueba: debería obtener exitosamente un producto específico
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Producto con ID 1 existe
 **Datos de entrada:** id=1
@@ -712,7 +712,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto con id=1 y campos requeridos
 **Estimación:** 1 SP
 
-#### Test: should return 404 for non-existent product
+#### Prueba: debería retornar 404 para un producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** ID no existente
 **Datos de entrada:** id=99999
@@ -723,7 +723,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Campo success es false
 **Estimación:** 1 SP
 
-#### Test: should handle invalid product ID formats
+#### Prueba: debería manejar formatos de ID de producto inválidos
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=0, id=-1
@@ -733,9 +733,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-### GET /products/categories - Get All Categories
+### GET /products/categories - Obtener Todas las Categorías
 
-#### Test: should successfully retrieve all product categories
+#### Prueba: debería obtener exitosamente todas las categorías de productos
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Categorías existentes
 **Datos de entrada:** N/A
@@ -746,9 +746,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta es un array no vacío de categorías
 **Estimación:** 1 SP
 
-### GET /products/category/{category} - Get Products by Category
+### GET /products/category/{category} - Obtener Productos por Categoría
 
-#### Test: should successfully retrieve products by valid category
+#### Prueba: debería obtener productos por categoría válida
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Categoría válida (ej: electronics)
 **Datos de entrada:** category=electronics
@@ -759,7 +759,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los productos tienen category=electronics
 **Estimación:** 1 SP
 
-#### Test: should handle invalid category gracefully
+#### Prueba: debería manejar categoría inválida apropiadamente
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** category=nonexistent-category
@@ -769,9 +769,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200, 400 o 404
 **Estimación:** 1 SP
 
-### POST /products - Create Product
+### POST /products - Crear Producto
 
-#### Test: should successfully create a new product with valid data
+#### Prueba: debería crear exitosamente un nuevo producto con datos válidos
 **Tipo de prueba:** Funcional positiva (creación)
 **Precondiciones:** N/A
 **Datos de entrada:** Datos válidos de producto
@@ -782,7 +782,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto creado con id y datos coinciden
 **Estimación:** 2 SP
 
-#### Test: should create product with external data from quotable API
+#### Prueba: debería crear producto con datos externos de la API quotable
 **Tipo de prueba:** Integración externa
 **Precondiciones:** API quotable disponible
 **Datos de entrada:** Descripción e imagen externas
@@ -794,7 +794,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto creado con descripción e imagen externas
 **Estimación:** 2 SP
 
-#### Test: should create product with generated random data
+#### Prueba: debería crear producto con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
 **Precondiciones:** N/A
 **Datos de entrada:** Datos aleatorios
@@ -806,7 +806,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto creado con id
 **Estimación:** 2 SP
 
-#### Test: should handle invalid product data
+#### Prueba: debería manejar datos de producto inválidos
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** N/A
 **Datos de entrada:** Datos inválidos
@@ -816,7 +816,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle product data with invalid data types
+#### Prueba: debería manejar datos de producto con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
 **Precondiciones:** N/A
 **Datos de entrada:** Tipos incorrectos
@@ -826,9 +826,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### PUT /products/{id} - Update Product
+### PUT /products/{id} - Actualizar Producto
 
-#### Test: should successfully update an existing product
+#### Prueba: debería actualizar exitosamente un producto existente
 **Tipo de prueba:** Funcional positiva (actualización)
 **Precondiciones:** Producto existente
 **Datos de entrada:** id=1, datos válidos
@@ -839,7 +839,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto actualizado con datos correctos
 **Estimación:** 2 SP
 
-#### Test: should successfully perform partial update of product
+#### Prueba: debería permitir actualización parcial de un producto
 **Tipo de prueba:** Actualización parcial
 **Precondiciones:** Producto existente
 **Datos de entrada:** id=2, datos parciales
@@ -850,7 +850,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto actualizado parcialmente
 **Estimación:** 2 SP
 
-#### Test: should handle update of non-existent product
+#### Prueba: debería manejar actualización de producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -860,7 +860,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid update data
+#### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** Producto existente
 **Datos de entrada:** Datos inválidos
@@ -870,9 +870,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### DELETE /products/{id} - Delete Product
+### DELETE /products/{id} - Eliminar Producto
 
-#### Test: should successfully delete an existing product
+#### Prueba: debería eliminar exitosamente un producto existente
 **Tipo de prueba:** Funcional positiva (eliminación)
 **Precondiciones:** Producto existente
 **Datos de entrada:** id=1
@@ -883,7 +883,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Producto eliminado
 **Estimación:** 1 SP
 
-#### Test: should handle deletion of non-existent product
+#### Prueba: debería manejar eliminación de producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -893,7 +893,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid product ID for deletion
+#### Prueba: debería manejar ID de producto inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=-1
@@ -903,9 +903,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200, 400 o 404
 **Estimación:** 1 SP
 
-### Error Handling and Edge Cases
+### Manejo de Errores y Casos Límite
 
-#### Test: should handle network timeout gracefully
+#### Prueba: debería manejar timeout de red apropiadamente
 **Tipo de prueba:** Manejo de errores de red
 **Precondiciones:** N/A
 **Datos de entrada:** N/A
@@ -915,7 +915,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta definida o error manejado
 **Estimación:** 1 SP
 
-#### Test: should validate external API availability
+#### Prueba: debería validar la disponibilidad de APIs externas
 **Tipo de prueba:** Integración externa
 **Precondiciones:** APIs externas configuradas
 **Datos de entrada:** N/A
@@ -930,9 +930,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 
 ## Carritos (`carts.spec.ts`)
 
-### GET /carts - Get All Carts
+### GET /carts - Obtener Todos los Carritos
 
-#### Test: should successfully retrieve all carts
+#### Prueba: debería obtener exitosamente todos los carritos
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Carritos existentes
 **Datos de entrada:** N/A
@@ -944,7 +944,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Cada carrito tiene los campos requeridos y productos válidos
 **Estimación:** 1 SP
 
-#### Test: should retrieve carts with limit and sort parameters
+#### Prueba: debería obtener carritos con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
 **Precondiciones:** Carritos existentes
 **Datos de entrada:** limit=3, sort='desc'
@@ -955,7 +955,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Array de carritos con longitud <= 3
 **Estimación:** 1 SP
 
-#### Test: should handle invalid limit parameter gracefully
+#### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** limit=-1
@@ -966,9 +966,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta es un array
 **Estimación:** 1 SP
 
-### GET /carts/{id} - Get Cart by ID
+### GET /carts/{id} - Obtener Carrito por ID
 
-#### Test: should successfully retrieve a specific cart
+#### Prueba: debería obtener exitosamente un carrito específico
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Carrito con ID 1 existe
 **Datos de entrada:** id=1
@@ -979,7 +979,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito con id=1 y campos requeridos
 **Estimación:** 1 SP
 
-#### Test: should return 404 for non-existent cart
+#### Prueba: debería retornar 404 para un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** ID no existente
 **Datos de entrada:** id=99999
@@ -990,7 +990,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Campo success es false
 **Estimación:** 1 SP
 
-#### Test: should handle invalid cart ID formats
+#### Prueba: debería manejar formatos de ID de carrito inválidos
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=0, id=-1
@@ -1000,9 +1000,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-### GET /carts/user/{userId} - Get Carts by User ID
+### GET /carts/user/{userId} - Obtener Carritos por ID de Usuario
 
-#### Test: should successfully retrieve carts for user 2
+#### Prueba: debería obtener exitosamente los carritos del usuario 2
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Carritos para userId=2
 **Datos de entrada:** userId=2
@@ -1013,7 +1013,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los carritos tienen userId=2
 **Estimación:** 1 SP
 
-#### Test: should handle request for non-existent user
+#### Prueba: debería manejar la solicitud para un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** userId inexistente
 **Datos de entrada:** userId=99999
@@ -1023,7 +1023,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid user ID formats
+#### Prueba: debería manejar formatos de ID de usuario inválidos
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** userId=0, userId=-1
@@ -1033,7 +1033,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200, 400 o 404
 **Estimación:** 1 SP
 
-#### Test: should retrieve carts for multiple users and validate userId consistency
+#### Prueba: debería obtener carritos para múltiples usuarios y validar la consistencia de userId
 **Tipo de prueba:** Consistencia de datos
 **Precondiciones:** Carritos para varios usuarios
 **Datos de entrada:** userIds=[1,2,3]
@@ -1043,9 +1043,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los carritos devueltos tienen el userId correspondiente
 **Estimación:** 2 SP
 
-### POST /carts - Create Cart
+### POST /carts - Crear Carrito
 
-#### Test: should successfully create a new cart with valid data
+#### Prueba: debería crear exitosamente un nuevo carrito con datos válidos
 **Tipo de prueba:** Funcional positiva (creación)
 **Precondiciones:** N/A
 **Datos de entrada:** Datos válidos de carrito
@@ -1056,7 +1056,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito creado con id y datos correctos
 **Estimación:** 2 SP
 
-#### Test: should create cart with external date from WorldTimeAPI
+#### Prueba: debería crear un carrito con fecha externa de WorldTimeAPI
 **Tipo de prueba:** Integración externa
 **Precondiciones:** WorldTimeAPI disponible
 **Datos de entrada:** Fecha externa
@@ -1068,7 +1068,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito creado con fecha externa
 **Estimación:** 2 SP
 
-#### Test: should create cart with generated random data
+#### Prueba: debería crear un carrito con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
 **Precondiciones:** N/A
 **Datos de entrada:** Datos aleatorios
@@ -1080,7 +1080,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito creado con id
 **Estimación:** 2 SP
 
-#### Test: should handle invalid cart data
+#### Prueba: debería manejar datos de carrito inválidos
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** N/A
 **Datos de entrada:** Datos inválidos
@@ -1090,7 +1090,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle cart data with invalid data types
+#### Prueba: debería manejar datos de carrito con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
 **Precondiciones:** N/A
 **Datos de entrada:** Tipos incorrectos
@@ -1100,7 +1100,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle cart creation with invalid product structure
+#### Prueba: debería manejar la creación de carrito con estructura de producto inválida
 **Tipo de prueba:** Validación de estructura
 **Precondiciones:** N/A
 **Datos de entrada:** Estructura de productos inválida
@@ -1110,7 +1110,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should validate product quantities are positive numbers
+#### Prueba: debería validar que las cantidades de productos sean números positivos
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** N/A
 **Datos de entrada:** Productos con cantidad negativa o cero
@@ -1120,9 +1120,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### PUT /carts/{id} - Update Cart
+### PUT /carts/{id} - Actualizar Carrito
 
-#### Test: should successfully update an existing cart
+#### Prueba: debería actualizar exitosamente un carrito existente
 **Tipo de prueba:** Funcional positiva (actualización)
 **Precondiciones:** Carrito existente
 **Datos de entrada:** id=1, datos válidos
@@ -1133,7 +1133,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito actualizado con datos correctos
 **Estimación:** 2 SP
 
-#### Test: should successfully perform partial update of cart
+#### Prueba: debería permitir la actualización parcial de un carrito
 **Tipo de prueba:** Actualización parcial
 **Precondiciones:** Carrito existente
 **Datos de entrada:** id=2, datos parciales
@@ -1144,7 +1144,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito actualizado parcialmente
 **Estimación:** 2 SP
 
-#### Test: should handle update of non-existent cart
+#### Prueba: debería manejar la actualización de un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -1154,7 +1154,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid update data
+#### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** Carrito existente
 **Datos de entrada:** Datos inválidos
@@ -1164,7 +1164,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle cart update with empty products array
+#### Prueba: debería manejar la actualización de un carrito con array de productos vacío
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** Carrito existente
 **Datos de entrada:** products=[]
@@ -1174,9 +1174,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### DELETE /carts/{id} - Delete Cart
+### DELETE /carts/{id} - Eliminar Carrito
 
-#### Test: should successfully delete an existing cart
+#### Prueba: debería eliminar exitosamente un carrito existente
 **Tipo de prueba:** Funcional positiva (eliminación)
 **Precondiciones:** Carrito existente
 **Datos de entrada:** id=1
@@ -1187,7 +1187,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Carrito eliminado
 **Estimación:** 1 SP
 
-#### Test: should handle deletion of non-existent cart
+#### Prueba: debería manejar la eliminación de un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -1197,7 +1197,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid cart ID for deletion
+#### Prueba: debería manejar ID de carrito inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=-1
@@ -1207,7 +1207,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200, 400 o 404
 **Estimación:** 1 SP
 
-#### Test: should verify cart deletion by attempting to retrieve deleted cart
+#### Prueba: debería verificar la eliminación de un carrito intentando obtenerlo
 **Tipo de prueba:** Validación de eliminación
 **Precondiciones:** Carrito creado y eliminado
 **Datos de entrada:** id de carrito recién creado
@@ -1219,9 +1219,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404 al recuperar
 **Estimación:** 2 SP
 
-### GET /carts - Date Range Filtering
+### GET /carts - Filtrado por Rango de Fechas
 
-#### Test: should retrieve carts within specified date range
+#### Prueba: debería obtener carritos dentro de un rango de fechas especificado
 **Tipo de prueba:** Filtro de fechas
 **Precondiciones:** Carritos con fechas en rango
 **Datos de entrada:** startDate, endDate
@@ -1232,7 +1232,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todas las fechas dentro del rango
 **Estimación:** 2 SP
 
-#### Test: should handle invalid date range formats
+#### Prueba: debería manejar formatos de rango de fechas inválidos
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** Fechas inválidas
@@ -1242,7 +1242,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle reversed date range (end before start)
+#### Prueba: debería manejar un rango de fechas invertido (fin antes de inicio)
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** N/A
 **Datos de entrada:** startDate > endDate
@@ -1252,9 +1252,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### Data Validation and Business Logic
+### Validación de Datos y Lógica de Negocio
 
-#### Test: should validate cart product IDs reference valid products
+#### Prueba: debería validar que los IDs de productos en el carrito sean válidos
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** Carritos existentes
 **Datos de entrada:** N/A
@@ -1264,7 +1264,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los productId > 0 y quantity > 0
 **Estimación:** 1 SP
 
-#### Test: should validate cart date formats are ISO strings
+#### Prueba: debería validar que las fechas de los carritos sean cadenas ISO
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** Carritos existentes
 **Datos de entrada:** N/A
@@ -1274,7 +1274,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Fechas válidas y en formato ISO
 **Estimación:** 1 SP
 
-#### Test: should validate user IDs are positive integers
+#### Prueba: debería validar que los userId sean enteros positivos
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** Carritos existentes
 **Datos de entrada:** N/A
@@ -1284,9 +1284,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los userId son enteros positivos
 **Estimación:** 1 SP
 
-### Error Handling and Edge Cases
+### Manejo de Errores y Casos Límite
 
-#### Test: should handle concurrent cart operations gracefully
+#### Prueba: debería manejar operaciones concurrentes de carritos correctamente
 **Tipo de prueba:** Concurrencia
 **Precondiciones:** N/A
 **Datos de entrada:** Datos válidos de carrito
@@ -1296,7 +1296,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todas las respuestas son 200 o 400
 **Estimación:** 2 SP
 
-#### Test: should validate external API integration for dates
+#### Prueba: debería validar la integración con la API externa para fechas
 **Tipo de prueba:** Integración externa
 **Precondiciones:** WorldTimeAPI configurada
 **Datos de entrada:** N/A
@@ -1306,7 +1306,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Fecha externa válida o test pasa si no disponible
 **Estimación:** 1 SP
 
-#### Test: should handle cart creation with duplicate product IDs
+#### Prueba: debería manejar la creación de carrito con IDs de producto duplicados
 **Tipo de prueba:** Validación de negocio
 **Precondiciones:** N/A
 **Datos de entrada:** Productos con productId duplicado
@@ -1316,7 +1316,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle maximum products limit in cart
+#### Prueba: debería manejar el límite máximo de productos en un carrito
 **Tipo de prueba:** Límite de datos
 **Precondiciones:** N/A
 **Datos de entrada:** 100 productos
@@ -1331,9 +1331,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 
 ## Usuarios (`users.spec.ts`)
 
-### GET /users - Get All Users
+### GET /users - Obtener Todos los Usuarios
 
-#### Test: should successfully retrieve all users
+#### Prueba: debería obtener exitosamente todos los usuarios
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Usuarios existentes
 **Datos de entrada:** N/A
@@ -1345,7 +1345,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Cada usuario tiene los campos requeridos y objetos anidados válidos
 **Estimación:** 1 SP
 
-#### Test: should retrieve users with limit and sort parameters
+#### Prueba: debería obtener usuarios con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
 **Precondiciones:** Usuarios existentes
 **Datos de entrada:** limit=3, sort='desc'
@@ -1356,7 +1356,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Array de usuarios con longitud <= 3
 **Estimación:** 1 SP
 
-#### Test: should handle invalid limit parameter gracefully
+#### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** limit=-1
@@ -1367,9 +1367,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Respuesta es un array
 **Estimación:** 1 SP
 
-### GET /users/{id} - Get User by ID
+### GET /users/{id} - Obtener Usuario por ID
 
-#### Test: should successfully retrieve a specific user
+#### Prueba: debería obtener exitosamente un usuario específico
 **Tipo de prueba:** Funcional positiva
 **Precondiciones:** Usuario con ID 1 existe
 **Datos de entrada:** id=1
@@ -1380,7 +1380,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario con id=1 y campos requeridos
 **Estimación:** 1 SP
 
-#### Test: should return 404 for non-existent user
+#### Prueba: debería retornar 404 para un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** ID no existente
 **Datos de entrada:** id=99999
@@ -1391,7 +1391,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Campo success es false
 **Estimación:** 1 SP
 
-#### Test: should handle invalid user ID formats
+#### Prueba: debería manejar formatos de ID de usuario inválidos
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=0, id=-1
@@ -1401,9 +1401,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-### POST /users - Create User
+### POST /users - Crear Usuario
 
-#### Test: should successfully create a new user with valid data
+#### Prueba: debería crear exitosamente un nuevo usuario con datos válidos
 **Tipo de prueba:** Funcional positiva (creación)
 **Precondiciones:** N/A
 **Datos de entrada:** Datos válidos de usuario
@@ -1414,7 +1414,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario creado con id y datos coinciden
 **Estimación:** 2 SP
 
-#### Test: should create user with external data from JSONPlaceholder API
+#### Prueba: debería crear usuario con datos externos de la API JSONPlaceholder
 **Tipo de prueba:** Integración externa
 **Precondiciones:** API JSONPlaceholder disponible
 **Datos de entrada:** Datos externos
@@ -1426,7 +1426,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario creado con datos externos
 **Estimación:** 2 SP
 
-#### Test: should create user with generated random data
+#### Prueba: debería crear usuario con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
 **Precondiciones:** N/A
 **Datos de entrada:** Datos aleatorios
@@ -1438,7 +1438,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario creado con id
 **Estimación:** 2 SP
 
-#### Test: should handle invalid user data
+#### Prueba: debería manejar datos de usuario inválidos
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** N/A
 **Datos de entrada:** Datos inválidos
@@ -1448,7 +1448,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle user data with invalid data types
+#### Prueba: debería manejar datos de usuario con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
 **Precondiciones:** N/A
 **Datos de entrada:** Tipos incorrectos
@@ -1458,7 +1458,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle user creation with invalid email formats
+#### Prueba: debería manejar creación de usuario con emails inválidos
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** N/A
 **Datos de entrada:** Emails inválidos
@@ -1468,7 +1468,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-#### Test: should handle user creation with edge case strings
+#### Prueba: debería manejar creación de usuario con strings edge case
 **Tipo de prueba:** Límite de datos
 **Precondiciones:** N/A
 **Datos de entrada:** Strings vacíos, espacios, etc.
@@ -1478,9 +1478,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### PUT /users/{id} - Update User
+### PUT /users/{id} - Actualizar Usuario
 
-#### Test: should successfully update an existing user
+#### Prueba: debería actualizar exitosamente un usuario existente
 **Tipo de prueba:** Funcional positiva (actualización)
 **Precondiciones:** Usuario existente
 **Datos de entrada:** id=1, datos válidos
@@ -1491,7 +1491,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario actualizado con datos correctos
 **Estimación:** 2 SP
 
-#### Test: should successfully perform partial update of user
+#### Prueba: debería permitir la actualización parcial de un usuario
 **Tipo de prueba:** Actualización parcial
 **Precondiciones:** Usuario existente
 **Datos de entrada:** id=2, datos parciales
@@ -1502,7 +1502,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario actualizado parcialmente
 **Estimación:** 2 SP
 
-#### Test: should handle update of non-existent user
+#### Prueba: debería manejar la actualización de un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -1512,7 +1512,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid update data
+#### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
 **Precondiciones:** Usuario existente
 **Datos de entrada:** Datos inválidos
@@ -1522,9 +1522,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400
 **Estimación:** 1 SP
 
-### DELETE /users/{id} - Delete User
+### DELETE /users/{id} - Eliminar Usuario
 
-#### Test: should successfully delete an existing user
+#### Prueba: debería eliminar exitosamente un usuario existente
 **Tipo de prueba:** Funcional positiva (eliminación)
 **Precondiciones:** Usuario existente
 **Datos de entrada:** id=1
@@ -1535,7 +1535,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Usuario eliminado
 **Estimación:** 1 SP
 
-#### Test: should handle deletion of non-existent user
+#### Prueba: debería manejar la eliminación de un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
 **Precondiciones:** id inexistente
 **Datos de entrada:** id=99999
@@ -1545,7 +1545,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 404
 **Estimación:** 1 SP
 
-#### Test: should handle invalid user ID for deletion
+#### Prueba: debería manejar ID de usuario inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
 **Precondiciones:** N/A
 **Datos de entrada:** id=-1
@@ -1555,9 +1555,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200, 400 o 404
 **Estimación:** 1 SP
 
-### Data Validation and Constraints
+### Validación de Datos y Restricciones
 
-#### Test: should validate email format in user responses
+#### Prueba: debería validar el formato de email en las respuestas de usuario
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** Usuarios existentes
 **Datos de entrada:** N/A
@@ -1567,7 +1567,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los emails cumplen formato válido
 **Estimación:** 1 SP
 
-#### Test: should validate phone number format in user responses
+#### Prueba: debería validar el formato del número de teléfono en las respuestas de usuario
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** Usuarios existentes
 **Datos de entrada:** N/A
@@ -1577,7 +1577,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Todos los teléfonos son strings no vacíos
 **Estimación:** 1 SP
 
-#### Test: should validate geolocation coordinates format
+#### Prueba: debería validar el formato de las coordenadas de geolocalización
 **Tipo de prueba:** Validación de formato
 **Precondiciones:** Usuario existente
 **Datos de entrada:** id=1
@@ -1587,9 +1587,9 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Latitud entre -90 y 90, longitud entre -180 y 180
 **Estimación:** 1 SP
 
-### Error Handling and Edge Cases
+### Manejo de Errores y Casos Límite
 
-#### Test: should handle malformed JSON in request body
+#### Prueba: debería manejar JSON malformado en el cuerpo de la solicitud
 **Tipo de prueba:** Manejo de errores
 **Precondiciones:** N/A
 **Datos de entrada:** JSON malformado
@@ -1599,7 +1599,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200 o 400, o error manejado
 **Estimación:** 1 SP
 
-#### Test: should validate external API integration resilience
+#### Prueba: debería validar la resiliencia de la integración con APIs externas
 **Tipo de prueba:** Integración externa
 **Precondiciones:** APIs externas configuradas
 **Datos de entrada:** N/A

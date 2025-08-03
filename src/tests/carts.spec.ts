@@ -5,7 +5,7 @@ import { DataGenerator } from '../utils/data-generator';
 import { ExternalDataProvider } from '../utils/external-data';
 import { Cart } from '../interfaces/cart.interface';
 
-test.describe('Carts API Tests', () => {
+test.describe('Pruebas de la API de Carritos', () => {
   let cartsApi: CartsApiPage;
   let externalData: ExternalDataProvider;
 
@@ -14,8 +14,8 @@ test.describe('Carts API Tests', () => {
     externalData = new ExternalDataProvider(request);
   });
 
-  test.describe('GET /carts - Get All Carts', () => {
-    test('should successfully retrieve all carts', async () => {
+  test.describe('GET /carts - Obtener todos los carritos', () => {
+    test('debería obtener exitosamente todos los carritos', async () => {
       const response = await cartsApi.getAllCarts();
       
       expect(response.success).toBeTruthy();
@@ -38,7 +38,7 @@ test.describe('Carts API Tests', () => {
       }
     });
 
-    test('should retrieve carts with limit and sort parameters', async () => {
+    test('debería obtener carritos con parámetros de límite y orden', async () => {
       const limit = 3;
       const response = await cartsApi.getCartsWithLimit(limit, 'desc');
       
@@ -47,7 +47,7 @@ test.describe('Carts API Tests', () => {
       expect(response.data!.length).toBeLessThanOrEqual(limit);
     });
 
-    test('should handle invalid limit parameter gracefully', async () => {
+    test('debería manejar el parámetro de límite inválido apropiadamente', async () => {
       const response = await cartsApi.getCartsWithLimit(-1);
       
       // API should handle invalid parameters gracefully
@@ -56,44 +56,44 @@ test.describe('Carts API Tests', () => {
     });
   });
 
-  test.describe('GET /carts/{id} - Get Cart by ID', () => {
-    test('should successfully retrieve a specific cart', async () => {
+  test.describe('GET /carts/{id} - Obtener carrito por ID', () => {
+    test('debería obtener exitosamente un carrito específico', async () => {
       const cartId = 1;
       const response = await cartsApi.getCartById(cartId);
       
-      expect(response.success).toBeTruthy();
-      expect(response.status).toBe(200);
-      expect(response.data!.id).toBe(cartId);
+      expect(response.success, '❌ La obtención del carrito debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener carrito debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del carrito debe coincidir').toBe(cartId);
       
-      // Validate cart structure
+      // Validar estructura del carrito
       CartsMock.requiredCartFields.forEach(field => {
-        expect(response.data!).toHaveProperty(field);
+        expect(response.data!, `❌ El carrito debe tener la propiedad '${field}'`).toHaveProperty(field);
       });
       
-      // Validate date format
-      expect(new Date(response.data!.date).getTime()).not.toBeNaN();
+      // Validar formato de fecha
+      expect(new Date(response.data!.date).getTime(), '❌ La fecha del carrito debe ser válida').not.toBeNaN();
     });
 
-    test('should return 404 for non-existent cart', async () => {
+    test('debería retornar 404 para un carrito inexistente', async () => {
       const nonExistentId = 99999;
       const response = await cartsApi.getCartById(nonExistentId);
       
-      expect(response.status).toBe(404);
-      expect(response.success).toBeFalsy();
+      expect(response.status, '❌ El status para carrito inexistente debe ser 404').toBe(404);
+      expect(response.success, '❌ El success debe ser false para carrito inexistente').toBeFalsy();
     });
 
-    test('should handle invalid cart ID formats', async () => {
+    test('debería manejar formatos de ID de carrito inválidos', async () => {
       const invalidIds = [0, -1];
       
       for (const invalidId of invalidIds) {
         const response = await cartsApi.getCartById(invalidId);
-        expect([200, 404]).toContain(response.status);
+        expect([200, 404], `❌ El status para ID de carrito inválido '${invalidId}' debe ser 200 o 404`).toContain(response.status);
       }
     });
   });
 
-  test.describe('GET /carts/user/{userId} - Get Carts by User ID', () => {
-    test('should successfully retrieve carts for user 2', async () => {
+  test.describe('GET /carts/user/{userId} - Obtener carritos por ID de usuario', () => {
+    test('debería obtener exitosamente los carritos del usuario 2', async () => {
       const userId = 2;
       const response = await cartsApi.getCartsByUserId(userId);
       
@@ -107,7 +107,7 @@ test.describe('Carts API Tests', () => {
       });
     });
 
-    test('should handle request for non-existent user', async () => {
+    test('debería manejar la solicitud para un usuario inexistente', async () => {
       const nonExistentUserId = 99999;
       const response = await cartsApi.getCartsByUserId(nonExistentUserId);
       
@@ -119,7 +119,7 @@ test.describe('Carts API Tests', () => {
       }
     });
 
-    test('should handle invalid user ID formats', async () => {
+    test('debería manejar formatos de ID de usuario inválidos', async () => {
       const invalidIds = [0, -1];
       
       for (const invalidId of invalidIds) {
@@ -128,7 +128,7 @@ test.describe('Carts API Tests', () => {
       }
     });
 
-    test('should retrieve carts for multiple users and validate userId consistency', async () => {
+    test('debería obtener carritos para múltiples usuarios y validar la consistencia de userId', async () => {
       const userIds = [1, 2, 3];
       
       for (const userId of userIds) {
@@ -143,8 +143,8 @@ test.describe('Carts API Tests', () => {
     });
   });
 
-  test.describe('POST /carts - Create Cart', () => {
-    test('should successfully create a new cart with valid data', async () => {
+  test.describe('POST /carts - Crear carrito', () => {
+    test('debería crear exitosamente un nuevo carrito con datos válidos', async () => {
       const cartData = CartsMock.validCreateCartData;
       const response = await cartsApi.createCart(cartData);
       
@@ -155,7 +155,7 @@ test.describe('Carts API Tests', () => {
       expect(Array.isArray(response.data!.products)).toBeTruthy();
     });
 
-    test('should create cart with external date from WorldTimeAPI', async () => {
+    test('debería crear un carrito con fecha externa de WorldTimeAPI', async () => {
       try {
         const externalDate = await externalData.getCurrentDateFromWorldTimeApi();
         const cartData = {
@@ -174,7 +174,7 @@ test.describe('Carts API Tests', () => {
       }
     });
 
-    test('should create cart with generated random data', async () => {
+    test('debería crear un carrito con datos aleatorios generados', async () => {
       const randomCartData = DataGenerator.generateRandomCart();
       const response = await cartsApi.createCart(randomCartData);
       
@@ -183,28 +183,28 @@ test.describe('Carts API Tests', () => {
       expect(response.data!).toHaveProperty('id');
     });
 
-    test('should handle invalid cart data', async () => {
+    test('debería manejar datos de carrito inválidos', async () => {
       const response = await cartsApi.createCart(CartsMock.invalidCreateCartData as any);
       
       // API behavior for invalid data might vary
       expect([200, 400]).toContain(response.status);
     });
 
-    test('should handle cart data with invalid data types', async () => {
+    test('debería manejar datos de carrito con tipos de datos inválidos', async () => {
       const response = await cartsApi.createCart(CartsMock.invalidDataTypes as any);
       
       // API should handle type mismatches
       expect([200, 400]).toContain(response.status);
     });
 
-    test('should handle cart creation with invalid product structure', async () => {
+    test('debería manejar la creación de carrito con estructura de producto inválida', async () => {
       const response = await cartsApi.createCart(CartsMock.invalidProductStructure as any);
       
       // API should validate product structure
       expect([200, 400]).toContain(response.status);
     });
 
-    test('should validate product quantities are positive numbers', async () => {
+    test('debería validar que las cantidades de productos sean números positivos', async () => {
       const cartDataWithNegativeQuantity = {
         userId: 1,
         date: new Date().toISOString(),
@@ -221,48 +221,48 @@ test.describe('Carts API Tests', () => {
     });
   });
 
-  test.describe('PUT /carts/{id} - Update Cart', () => {
-    test('should successfully update an existing cart', async () => {
+  test.describe('PUT /carts/{id} - Actualizar carrito', () => {
+    test('debería actualizar exitosamente un carrito existente', async () => {
       const cartId = 1;
       const updateData = CartsMock.validUpdateCartData;
       const response = await cartsApi.updateCart(cartId, updateData);
       
-      expect(response.success).toBeTruthy();
-      expect(response.status).toBe(200);
-      expect(response.data!.id).toBe(cartId);
-      expect(response.data!.userId).toBe(updateData.userId);
+      expect(response.success, '❌ La actualización del carrito debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para actualizar carrito debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del carrito actualizado debe coincidir').toBe(cartId);
+      expect(response.data!.userId, '❌ El userId del carrito actualizado debe coincidir').toBe(updateData.userId);
     });
 
-    test('should successfully perform partial update of cart', async () => {
+    test('debería permitir la actualización parcial de un carrito', async () => {
       const cartId = 2;
       const partialUpdateData = CartsMock.partialUpdateCartData;
       const response = await cartsApi.updateCart(cartId, partialUpdateData);
       
-      expect(response.success).toBeTruthy();
-      expect(response.status).toBe(200);
-      expect(response.data!.id).toBe(cartId);
-      expect(Array.isArray(response.data!.products)).toBeTruthy();
+      expect(response.success, '❌ La actualización parcial debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para actualización parcial debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del carrito actualizado debe coincidir').toBe(cartId);
+      expect(Array.isArray(response.data!.products), '❌ El carrito debe tener un array de productos').toBeTruthy();
     });
 
-    test('should handle update of non-existent cart', async () => {
+    test('debería manejar la actualización de un carrito inexistente', async () => {
       const nonExistentId = 99999;
       const updateData = CartsMock.validUpdateCartData;
       const response = await cartsApi.updateCart(nonExistentId, updateData);
       
-      // API might create new cart or return error
-      expect([200, 404]).toContain(response.status);
+      // La API puede crear un nuevo carrito o devolver error
+      expect([200, 404], '❌ El status para carrito inexistente debe ser 200 o 404').toContain(response.status);
     });
 
-    test('should handle invalid update data', async () => {
+    test('debería manejar datos inválidos en la actualización', async () => {
       const cartId = 1;
-      const invalidData = { userId: "not-a-number", products: "not-an-array" };
+      const invalidData = { userId: "no-es-un-número", products: "no-es-un-array" };
       const response = await cartsApi.updateCart(cartId, invalidData as any);
       
-      // API should handle invalid data appropriately
-      expect([200, 400]).toContain(response.status);
+      // La API debe manejar datos inválidos apropiadamente
+      expect([200, 400], '❌ El status para datos inválidos debe ser 200 o 400').toContain(response.status);
     });
 
-    test('should handle cart update with empty products array', async () => {
+    test('debería manejar la actualización de un carrito con array de productos vacío', async () => {
       const cartId = 1;
       const updateData = {
         userId: 1,
@@ -272,153 +272,153 @@ test.describe('Carts API Tests', () => {
       
       const response = await cartsApi.updateCart(cartId, updateData);
       
-      // API should handle empty products array
-      expect([200, 400]).toContain(response.status);
+      // La API debe manejar array de productos vacío
+      expect([200, 400], '❌ El status para productos vacíos debe ser 200 o 400').toContain(response.status);
     });
   });
 
-  test.describe('DELETE /carts/{id} - Delete Cart', () => {
-    test('should successfully delete an existing cart', async () => {
+  test.describe('DELETE /carts/{id} - Eliminar carrito', () => {
+    test('debería eliminar exitosamente un carrito existente', async () => {
       const cartId = 1;
       const response = await cartsApi.deleteCart(cartId);
       
-      expect(response.success).toBeTruthy();
-      expect(response.status).toBe(200);
-      expect(response.data!).toHaveProperty('id');
+      expect(response.success, '❌ La eliminación del carrito debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para eliminar carrito debe ser 200').toBe(200);
+      expect(response.data!, '❌ El carrito eliminado debe tener propiedad id').toHaveProperty('id');
     });
 
-    test('should handle deletion of non-existent cart', async () => {
+    test('debería manejar la eliminación de un carrito inexistente', async () => {
       const nonExistentId = 99999;
       const response = await cartsApi.deleteCart(nonExistentId);
       
-      // API might return success or 404 for non-existent carts
-      expect([200, 404]).toContain(response.status);
+      // La API puede devolver éxito o 404 para carritos inexistentes
+      expect([200, 404], '❌ El status para carrito inexistente debe ser 200 o 404').toContain(response.status);
     });
 
-    test('should handle invalid cart ID for deletion', async () => {
+    test('debería manejar ID de carrito inválido para eliminación', async () => {
       const invalidId = -1;
       const response = await cartsApi.deleteCart(invalidId);
       
-      // API should handle invalid IDs gracefully
-      expect([200, 400, 404]).toContain(response.status);
+      // La API debe manejar IDs inválidos apropiadamente
+      expect([200, 400, 404], '❌ El status para ID inválido debe ser 200, 400 o 404').toContain(response.status);
     });
 
-    test('should verify cart deletion by attempting to retrieve deleted cart', async () => {
-      // First, create a cart
+    test('debería verificar la eliminación de un carrito intentando obtenerlo', async () => {
+      // Primero, crear un carrito
       const cartData = CartsMock.generateRandomCartData();
       const createResponse = await cartsApi.createCart(cartData);
       
       if (createResponse.success && createResponse.data?.id) {
         const cartId = createResponse.data.id;
         
-        // Delete the cart
+        // Eliminar el carrito
         const deleteResponse = await cartsApi.deleteCart(cartId);
-        expect(deleteResponse.status).toBe(200);
+        expect(deleteResponse.status, '❌ El status para eliminar debe ser 200').toBe(200);
         
-        // Try to retrieve the deleted cart
+        // Intentar obtener el carrito eliminado
         const getResponse = await cartsApi.getCartById(cartId);
         
-        // Note: FakeStore API might not actually delete the cart,
-        // it's a simulation, so we check for appropriate response
-        expect([200, 404]).toContain(getResponse.status);
+        // Nota: FakeStore API puede no eliminar realmente el carrito,
+        // es una simulación, así que verificamos respuesta apropiada
+        expect([200, 404], '❌ El status para carrito eliminado debe ser 200 o 404').toContain(getResponse.status);
       }
     });
   });
 
-  test.describe('GET /carts - Date Range Filtering', () => {
-    test('should retrieve carts within specified date range', async () => {
+  test.describe('GET /carts - Filtrado por rango de fechas', () => {
+    test('debería obtener carritos dentro de un rango de fechas especificado', async () => {
       const startDate = '2019-12-01';
       const endDate = '2020-03-31';
       const response = await cartsApi.getCartsByDateRange(startDate, endDate);
       
-      expect(response.success).toBeTruthy();
-      expect(response.status).toBe(200);
-      expect(Array.isArray(response.data)).toBeTruthy();
+      expect(response.success, '❌ La obtención de carritos debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener carritos debe ser 200').toBe(200);
+      expect(Array.isArray(response.data), '❌ La respuesta debe ser un array').toBeTruthy();
       
-      // Validate dates are within range (if carts are returned)
+      // Validar que las fechas estén dentro del rango
       if (response.data!.length > 0) {
         response.data!.forEach((cart: Cart) => {
           const cartDate = new Date(cart.date);
           const start = new Date(startDate);
           const end = new Date(endDate);
           
-          expect(cartDate.getTime()).toBeGreaterThanOrEqual(start.getTime());
-          expect(cartDate.getTime()).toBeLessThanOrEqual(end.getTime());
+          expect(cartDate.getTime(), '❌ La fecha del carrito debe ser mayor o igual al inicio').toBeGreaterThanOrEqual(start.getTime());
+          expect(cartDate.getTime(), '❌ La fecha del carrito debe ser menor o igual al fin').toBeLessThanOrEqual(end.getTime());
         });
       }
     });
 
-    test('should handle invalid date range formats', async () => {
-      const invalidStartDate = 'invalid-date';
-      const invalidEndDate = 'also-invalid';
+    test('debería manejar formatos de rango de fechas inválidos', async () => {
+      const invalidStartDate = 'fecha-invalida';
+      const invalidEndDate = 'tambien-invalida';
       const response = await cartsApi.getCartsByDateRange(invalidStartDate, invalidEndDate);
       
-      // API should handle invalid date formats
-      expect([200, 400]).toContain(response.status);
+      // La API debe manejar formatos de fecha inválidos
+      expect([200, 400], '❌ El status para fechas inválidas debe ser 200 o 400').toContain(response.status);
     });
 
-    test('should handle reversed date range (end before start)', async () => {
+    test('debería manejar un rango de fechas invertido (fin antes de inicio)', async () => {
       const startDate = '2020-12-31';
       const endDate = '2020-01-01';
       const response = await cartsApi.getCartsByDateRange(startDate, endDate);
       
-      // API should handle reversed date ranges appropriately
-      expect([200, 400]).toContain(response.status);
+      // La API debe manejar rangos invertidos apropiadamente
+      expect([200, 400], '❌ El status para rango invertido debe ser 200 o 400').toContain(response.status);
       
       if (response.success) {
-        expect(Array.isArray(response.data)).toBeTruthy();
-        // Should return empty array or handle gracefully
+        expect(Array.isArray(response.data), '❌ La respuesta debe ser un array').toBeTruthy();
+        // Debe retornar array vacío o manejarlo apropiadamente
       }
     });
   });
 
-  test.describe('Data Validation and Business Logic', () => {
-    test('should validate cart product IDs reference valid products', async () => {
+  test.describe('Validación de datos y lógica de negocio', () => {
+    test('debería validar que los IDs de productos en el carrito sean válidos', async () => {
       const response = await cartsApi.getAllCarts();
       
       if (response.success && response.data!.length > 0) {
         const cart = response.data![0];
         
-        // Product IDs should be positive integers
+        // Los IDs de producto deben ser enteros positivos
         cart.products.forEach(product => {
-          expect(typeof product.productId).toBe('number');
-          expect(product.productId).toBeGreaterThan(0);
-          expect(typeof product.quantity).toBe('number');
-          expect(product.quantity).toBeGreaterThan(0);
+          expect(typeof product.productId, '❌ El productId debe ser un número').toBe('number');
+          expect(product.productId, '❌ El productId debe ser mayor que 0').toBeGreaterThan(0);
+          expect(typeof product.quantity, '❌ La cantidad debe ser un número').toBe('number');
+          expect(product.quantity, '❌ La cantidad debe ser mayor que 0').toBeGreaterThan(0);
         });
       }
     });
 
-    test('should validate cart date formats are ISO strings', async () => {
+    test('debería validar que las fechas de los carritos sean cadenas ISO', async () => {
       const response = await cartsApi.getAllCarts();
       
       if (response.success && response.data!.length > 0) {
         response.data!.forEach((cart: Cart) => {
-          // Date should be a valid ISO string
+          // La fecha debe ser una cadena ISO válida
           const date = new Date(cart.date);
-          expect(date.getTime(), '❌ Cart date should be a valid date').not.toBeNaN();
+          expect(date.getTime(), '❌ La fecha del carrito debe ser válida').not.toBeNaN();
           
-          // Should be in ISO format
-          expect(cart.date, '❌ Cart date should be in ISO format').toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+          // Debe estar en formato ISO
+          expect(cart.date, '❌ La fecha debe estar en formato ISO').toMatch(/^[\d]{4}-[\d]{2}-[\d]{2}T[\d]{2}:[\d]{2}:[\d]{2}/);
         });
       }
     });
 
-    test('should validate user IDs are positive integers', async () => {
+    test('debería validar que los userId sean enteros positivos', async () => {
       const response = await cartsApi.getAllCarts();
       
       if (response.success && response.data!.length > 0) {
         response.data!.forEach((cart: Cart) => {
-          expect(typeof cart.userId).toBe('number');
-          expect(cart.userId).toBeGreaterThan(0);
-          expect(Number.isInteger(cart.userId)).toBeTruthy();
+          expect(typeof cart.userId, '❌ El userId debe ser un número').toBe('number');
+          expect(cart.userId, '❌ El userId debe ser mayor que 0').toBeGreaterThan(0);
+          expect(Number.isInteger(cart.userId), '❌ El userId debe ser entero').toBeTruthy();
         });
       }
     });
   });
 
-  test.describe('Error Handling and Edge Cases', () => {
-    test('should handle concurrent cart operations gracefully', async () => {
+  test.describe('Manejo de errores y casos límite', () => {
+    test('debería manejar operaciones concurrentes de carritos correctamente', async () => {
       const cartData = CartsMock.generateRandomCartData();
       const numberOfRequests = 3;
       
@@ -428,43 +428,43 @@ test.describe('Carts API Tests', () => {
       
       const responses = await Promise.all(createPromises);
       
-      // All requests should succeed (or fail consistently)
+      // Todas las solicitudes deben tener éxito (o fallar consistentemente)
       responses.forEach(response => {
-        expect([200, 400]).toContain(response.status);
+        expect([200, 400], '❌ El status para concurrencia debe ser 200 o 400').toContain(response.status);
       });
     });
 
-    test('should validate external API integration for dates', async () => {
-      const availability = await externalData.validateExternalApiAvailability();
+    test('debería validar la integración con la API externa para fechas', async () => {
+      const disponibilidad = await externalData.validateExternalApiAvailability();
       
-      if (availability.worldTime) {
+      if (disponibilidad.worldTime) {
         const externalDate = await externalData.getCurrentDateFromWorldTimeApi();
-        expect(typeof externalDate).toBe('string');
-        expect(new Date(externalDate).getTime()).not.toBeNaN();
+        expect(typeof externalDate, '❌ La fecha externa debe ser string').toBe('string');
+        expect(new Date(externalDate).getTime(), '❌ La fecha externa debe ser válida').not.toBeNaN();
       } else {
-        console.log('WorldTime API is not available');
+        console.log('WorldTime API no está disponible');
         expect(true).toBeTruthy();
       }
     });
 
-    test('should handle cart creation with duplicate product IDs', async () => {
+    test('debería manejar la creación de carrito con IDs de producto duplicados', async () => {
       const cartData = {
         userId: 1,
         date: new Date().toISOString(),
         products: [
           { productId: 1, quantity: 2 },
-          { productId: 1, quantity: 3 } // Duplicate product ID
+          { productId: 1, quantity: 3 } // ID de producto duplicado
         ]
       };
       
       const response = await cartsApi.createCart(cartData);
       
-      // API should handle duplicate product IDs appropriately
-      expect([200, 400]).toContain(response.status);
+      // La API debe manejar IDs de producto duplicados apropiadamente
+      expect([200, 400], '❌ El status para productos duplicados debe ser 200 o 400').toContain(response.status);
     });
 
-    test('should handle maximum products limit in cart', async () => {
-      const manyProducts = Array(100).fill(null).map((_, index) => ({
+    test('debería manejar el límite máximo de productos en un carrito', async () => {
+      const muchosProductos = Array(100).fill(null).map((_, index) => ({
         productId: index + 1,
         quantity: 1
       }));
@@ -472,13 +472,13 @@ test.describe('Carts API Tests', () => {
       const cartData = {
         userId: 1,
         date: new Date().toISOString(),
-        products: manyProducts
+        products: muchosProductos
       };
       
       const response = await cartsApi.createCart(cartData);
       
-      // API should handle large product arrays appropriately
-      expect([200, 400, 413], '❌ Status for maximum products limit should be 200, 400, or 413').toContain(response.status);
+      // La API debe manejar arrays grandes de productos apropiadamente
+      expect([200, 400, 413], '❌ El status para límite máximo debe ser 200, 400 o 413').toContain(response.status);
     });
   });
 });

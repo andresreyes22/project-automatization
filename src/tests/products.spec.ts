@@ -5,7 +5,7 @@ import { DataGenerator } from '../utils/data-generator';
 import { ExternalDataProvider } from '../utils/external-data';
 import { Product } from '../interfaces/product.interface';
 
-test.describe('Products API Tests', () => {
+test.describe('Pruebas de la API de Productos', () => {
   let productsApi: ProductsApiPage;
   let externalData: ExternalDataProvider;
 
@@ -14,128 +14,126 @@ test.describe('Products API Tests', () => {
     externalData = new ExternalDataProvider(request);
   });
 
-  test.describe('GET /products - Get All Products', () => {
-    test('should successfully retrieve all products', async () => {
+  test.describe('GET /products - Obtener Todos los Productos', () => {
+    test('debería obtener exitosamente todos los productos', async () => {
       const response = await productsApi.getAllProducts();
       
-      expect(response.success, '❌ Should successfully retrieve all products').toBeTruthy();
-      expect(response.status, '❌ Status for retrieving all products should be 200').toBe(200);
-      expect(Array.isArray(response.data), '❌ Response data should be an array').toBeTruthy();
-      expect(response.data!.length, '❌ Products array should not be empty').toBeGreaterThan(0);
+      expect(response.success, '❌ La obtención de todos los productos debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener todos los productos debe ser 200').toBe(200);
+      expect(Array.isArray(response.data), '❌ La respuesta debe ser un array').toBeTruthy();
+      expect(response.data!.length, '❌ El array de productos no debe estar vacío').toBeGreaterThan(0);
       
-      // Validate first product structure
+      // Validar estructura del primer producto
       const firstProduct = response.data![0];
       ProductsMock.requiredProductFields.forEach(field => {
-        expect(firstProduct, `❌ Product should have property '${field}'`).toHaveProperty(field);
+        expect(firstProduct, `❌ El producto debe tener la propiedad '${field}'`).toHaveProperty(field);
       });
     });
 
-    test('should retrieve products with limit and sort parameters', async () => {
+    test('debería obtener productos con parámetros de límite y orden', async () => {
       const limit = 5;
       const response = await productsApi.getProductsWithLimit(limit, 'desc');
       
-      expect(response.success, '❌ Should successfully retrieve products with limit').toBeTruthy();
-      expect(response.status, '❌ Status for retrieving products with limit should be 200').toBe(200);
-      expect(response.data!.length, '❌ Products array length should be less than or equal to limit').toBeLessThanOrEqual(limit);
+      expect(response.success, '❌ La obtención de productos con límite debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener productos con límite debe ser 200').toBe(200);
+      expect(response.data!.length, '❌ El tamaño del array de productos debe ser menor o igual al límite').toBeLessThanOrEqual(limit);
     });
 
-    test('should handle invalid limit parameter gracefully', async () => {
+    test('debería manejar el parámetro de límite inválido correctamente', async () => {
       const response = await productsApi.getProductsWithLimit(-1);
       
-      // API should handle invalid parameters gracefully
-      expect(response.status, '❌ Status for invalid limit parameter should be 200').toBe(200);
-      expect(Array.isArray(response.data), '❌ Response data should be an array for invalid limit').toBeTruthy();
+      // La API debe manejar parámetros inválidos correctamente
+      expect(response.status, '❌ El status para límite inválido debe ser 200').toBe(200);
+      expect(Array.isArray(response.data), '❌ La respuesta debe ser un array para límite inválido').toBeTruthy();
     });
   });
 
-  test.describe('GET /products/{id} - Get Product by ID', () => {
-    test('should successfully retrieve a specific product', async () => {
+  test.describe('GET /products/{id} - Obtener Producto por ID', () => {
+    test('debería obtener exitosamente un producto específico', async () => {
       const productId = 1;
       const response = await productsApi.getProductById(productId);
       
-      expect(response.success, '❌ Should successfully retrieve a specific product').toBeTruthy();
-      expect(response.status, '❌ Status for retrieving a specific product should be 200').toBe(200);
-      expect(response.data!.id, '❌ Product ID should match requested ID').toBe(productId);
+      expect(response.success, '❌ La obtención del producto debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener producto debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del producto debe coincidir con el solicitado').toBe(productId);
       
-      // Validate product structure
+      // Validar estructura del producto
       ProductsMock.requiredProductFields.forEach(field => {
-        expect(response.data!, `❌ Product should have property '${field}'`).toHaveProperty(field);
+        expect(response.data!, `❌ El producto debe tener la propiedad '${field}'`).toHaveProperty(field);
       });
     });
 
-    test('should return 404 for non-existent product', async () => {
+    test('debería retornar 404 para un producto inexistente', async () => {
       const nonExistentId = 99999;
       const response = await productsApi.getProductById(nonExistentId);
       
-      expect(response.status, '❌ Status for non-existent product should be 404').toBe(404);
-      expect(response.success, '❌ Success should be false for non-existent product').toBeFalsy();
+      expect(response.status, '❌ El status para producto inexistente debe ser 404').toBe(404);
+      expect(response.success, '❌ El success debe ser false para producto inexistente').toBeFalsy();
     });
 
-    test('should handle invalid product ID formats', async () => {
-      // Test with various invalid ID formats
+    test('debería manejar formatos de ID de producto inválidos', async () => {
       const invalidIds = [0, -1];
       
       for (const invalidId of invalidIds) {
         const response = await productsApi.getProductById(invalidId);
-        // API might return 404 or empty response for invalid IDs
-        expect([200, 404], `❌ Status for invalid product ID '${invalidId}' should be 200 or 404`).toContain(response.status);
+        expect([200, 404], `❌ El status para ID de producto inválido '${invalidId}' debe ser 200 o 404`).toContain(response.status);
       }
     });
   });
 
-  test.describe('GET /products/categories - Get All Categories', () => {
-    test('should successfully retrieve all product categories', async () => {
+  test.describe('GET /products/categories - Obtener Todas las Categorías', () => {
+    test('debería obtener exitosamente todas las categorías de productos', async () => {
       const response = await productsApi.getAllCategories();
       
-      expect(response.success, '❌ Should successfully retrieve all product categories').toBeTruthy();
-      expect(response.status, '❌ Status for retrieving all categories should be 200').toBe(200);
-      expect(Array.isArray(response.data), '❌ Categories response should be an array').toBeTruthy();
-      expect(response.data!.length, '❌ Categories array should not be empty').toBeGreaterThan(0);
+      expect(response.success, '❌ La obtención de todas las categorías debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener todas las categorías debe ser 200').toBe(200);
+      expect(Array.isArray(response.data), '❌ La respuesta de categorías debe ser un array').toBeTruthy();
+      expect(response.data!.length, '❌ El array de categorías no debe estar vacío').toBeGreaterThan(0);
       
-      // Verify expected categories are present
+      // Verificar que las categorías esperadas estén presentes
       ProductsMock.expectedCategories.forEach(category => {
-        expect(response.data, `❌ Categories should contain '${category}'`).toContain(category);
+        expect(response.data, `❌ Las categorías deben contener '${category}'`).toContain(category);
       });
     });
   });
 
-  test.describe('GET /products/category/{category} - Get Products by Category', () => {
-    test('should successfully retrieve products by valid category', async () => {
+  test.describe('GET /products/category/{category} - Obtener Productos por Categoría', () => {
+    test('debería obtener exitosamente productos por una categoría válida', async () => {
       const category = "electronics";
       const response = await productsApi.getProductsByCategory(category);
       
-      expect(response.success, '❌ Should successfully retrieve products by category').toBeTruthy();
-      expect(response.status, '❌ Status for retrieving products by category should be 200').toBe(200);
-      expect(Array.isArray(response.data), '❌ Products by category should be an array').toBeTruthy();
+      expect(response.success, '❌ La obtención de productos por categoría debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para obtener productos por categoría debe ser 200').toBe(200);
+      expect(Array.isArray(response.data), '❌ Los productos por categoría deben ser un array').toBeTruthy();
       
-      // Verify all products belong to the requested category
+      // Verificar que todos los productos pertenezcan a la categoría solicitada
       response.data!.forEach((product: Product) => {
-        expect(product.category, `❌ Product category should be '${category}'`).toBe(category);
+        expect(product.category, `❌ La categoría del producto debe ser '${category}'`).toBe(category);
       });
     });
 
-    test('should handle invalid category gracefully', async () => {
+    test('debería manejar una categoría inválida correctamente', async () => {
       const invalidCategory = "nonexistent-category" as any;
       const response = await productsApi.getProductsByCategory(invalidCategory);
       
-      // API might return empty array or error for invalid category
-      expect([200, 400, 404], '❌ Status for invalid category should be 200, 400, or 404').toContain(response.status);
+      // La API puede devolver array vacío o error para categoría inválida
+      expect([200, 400, 404], '❌ El status para categoría inválida debe ser 200, 400 o 404').toContain(response.status);
     });
   });
 
-  test.describe('POST /products - Create Product', () => {
-    test('should successfully create a new product with valid data', async () => {
+  test.describe('POST /products - Crear Producto', () => {
+    test('debería crear exitosamente un nuevo producto con datos válidos', async () => {
       const productData = ProductsMock.validCreateProductData;
       const response = await productsApi.createProduct(productData);
       
-      expect(response.success, '❌ Should successfully create a new product').toBeTruthy();
-      expect(response.status, '❌ Status for creating a new product should be 200').toBe(200);
-      expect(response.data!, '❌ Created product should have an id').toHaveProperty('id');
-      expect(response.data!.title, '❌ Created product title should match input').toBe(productData.title);
-      expect(response.data!.price, '❌ Created product price should match input').toBe(productData.price);
+      expect(response.success, '❌ La creación del producto debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para crear producto debe ser 200').toBe(200);
+      expect(response.data!, '❌ El producto creado debe tener un id').toHaveProperty('id');
+      expect(response.data!.title, '❌ El título del producto creado debe coincidir con el de entrada').toBe(productData.title);
+      expect(response.data!.price, '❌ El precio del producto creado debe coincidir con el de entrada').toBe(productData.price);
     });
 
-    test('should create product with external data from quotable API', async () => {
+    test('debería crear producto con datos externos de la API quotable', async () => {
       const externalDescription = await externalData.getRandomQuoteForProductDescription();
       const externalImageUrl = await externalData.getRandomImageUrl();
       
@@ -147,126 +145,126 @@ test.describe('Products API Tests', () => {
       
       const response = await productsApi.createProduct(productData);
       
-      expect(response.success, '❌ Should create product with external data').toBeTruthy();
-      expect(response.status, '❌ Status for creating product with external data should be 200').toBe(200);
-      expect(response.data!.description, '❌ Product description should match external description').toBe(externalDescription);
-      expect(response.data!.image, '❌ Product image should match external image URL').toBe(externalImageUrl);
+      expect(response.success, '❌ La creación del producto con datos externos debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para crear producto con datos externos debe ser 200').toBe(200);
+      expect(response.data!.description, '❌ La descripción del producto debe coincidir con la externa').toBe(externalDescription);
+      expect(response.data!.image, '❌ La imagen del producto debe coincidir con la externa').toBe(externalImageUrl);
     });
 
-    test('should create product with generated random data', async () => {
+    test('debería crear producto con datos aleatorios generados', async () => {
       const randomProductData = DataGenerator.generateRandomProduct();
       const response = await productsApi.createProduct(randomProductData);
       
-      expect(response.success, '❌ Should create product with random data').toBeTruthy();
-      expect(response.status, '❌ Status for creating product with random data should be 200').toBe(200);
-      expect(response.data!, '❌ Created product should have an id').toHaveProperty('id');
+      expect(response.success, '❌ La creación del producto con datos aleatorios debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para crear producto con datos aleatorios debe ser 200').toBe(200);
+      expect(response.data!, '❌ El producto creado debe tener un id').toHaveProperty('id');
     });
 
-    test('should handle invalid product data', async () => {
+    test('debería manejar datos de producto inválidos', async () => {
       const response = await productsApi.createProduct(ProductsMock.invalidCreateProductData as any);
       
-      // API behavior for invalid data might vary
-      expect([200, 400], '❌ Status for invalid product data should be 200 or 400').toContain(response.status);
+      // El comportamiento de la API para datos inválidos puede variar
+      expect([200, 400], '❌ El status para datos de producto inválidos debe ser 200 o 400').toContain(response.status);
     });
 
-    test('should handle product data with invalid data types', async () => {
+    test('debería manejar datos de producto con tipos de datos inválidos', async () => {
       const response = await productsApi.createProduct(ProductsMock.invalidDataTypes as any);
       
-      // API should handle type mismatches
-      expect([200, 400], '❌ Status for invalid data types should be 200 or 400').toContain(response.status);
+      // La API debe manejar tipos de datos incorrectos
+      expect([200, 400], '❌ El status para tipos de datos inválidos debe ser 200 o 400').toContain(response.status);
     });
   });
 
-  test.describe('PUT /products/{id} - Update Product', () => {
-    test('should successfully update an existing product', async () => {
+  test.describe('PUT /products/{id} - Actualizar Producto', () => {
+    test('debería actualizar exitosamente un producto existente', async () => {
       const productId = 1;
       const updateData = ProductsMock.validUpdateProductData;
       const response = await productsApi.updateProduct(productId, updateData);
       
-      expect(response.success, '❌ Should successfully update an existing product').toBeTruthy();
-      expect(response.status, '❌ Status for updating an existing product should be 200').toBe(200);
-      expect(response.data!.id, '❌ Updated product ID should match requested ID').toBe(productId);
-      expect(response.data!.title, '❌ Updated product title should match input').toBe(updateData.title);
+      expect(response.success, '❌ La actualización del producto debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para actualizar producto debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del producto actualizado debe coincidir con el solicitado').toBe(productId);
+      expect(response.data!.title, '❌ El título del producto actualizado debe coincidir con el de entrada').toBe(updateData.title);
     });
 
-    test('should successfully perform partial update of product', async () => {
+    test('debería realizar actualización parcial de un producto exitosamente', async () => {
       const productId = 2;
       const partialUpdateData = ProductsMock.partialUpdateProductData;
       const response = await productsApi.updateProduct(productId, partialUpdateData);
       
-      expect(response.success, '❌ Should successfully perform partial update of product').toBeTruthy();
-      expect(response.status, '❌ Status for partial update should be 200').toBe(200);
-      expect(response.data!.id, '❌ Updated product ID should match requested ID').toBe(productId);
-      expect(response.data!.title, '❌ Updated product title should match input').toBe(partialUpdateData.title);
+      expect(response.success, '❌ La actualización parcial debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para actualización parcial debe ser 200').toBe(200);
+      expect(response.data!.id, '❌ El ID del producto actualizado debe coincidir con el solicitado').toBe(productId);
+      expect(response.data!.title, '❌ El título actualizado debe coincidir con el de entrada').toBe(partialUpdateData.title);
     });
 
-    test('should handle update of non-existent product', async () => {
+    test('debería manejar la actualización de un producto inexistente', async () => {
       const nonExistentId = 99999;
       const updateData = ProductsMock.validUpdateProductData;
       const response = await productsApi.updateProduct(nonExistentId, updateData);
       
-      // API might create new product or return error
-      expect([200, 404], '❌ Status for updating non-existent product should be 200 or 404').toContain(response.status);
+      // La API puede crear un nuevo producto o devolver error
+      expect([200, 404], '❌ El status para actualizar producto inexistente debe ser 200 o 404').toContain(response.status);
     });
 
-    test('should handle invalid update data', async () => {
+    test('debería manejar datos inválidos en la actualización', async () => {
       const productId = 1;
-      const invalidData = { title: null, price: "not-a-number" };
+      const invalidData = { title: null, price: "no-es-un-número" };
       const response = await productsApi.updateProduct(productId, invalidData as any);
       
-      // API should handle invalid data appropriately
-      expect([200, 400], '❌ Status for invalid update data should be 200 or 400').toContain(response.status);
+      // La API debe manejar datos inválidos apropiadamente
+      expect([200, 400], '❌ El status para datos inválidos en la actualización debe ser 200 o 400').toContain(response.status);
     });
   });
 
   test.describe('DELETE /products/{id} - Delete Product', () => {
-    test('should successfully delete an existing product', async () => {
+    test('debería eliminar exitosamente un producto existente', async () => {
       const productId = 1;
       const response = await productsApi.deleteProduct(productId);
       
-      expect(response.success, '❌ Should successfully delete an existing product').toBeTruthy();
-      expect(response.status, '❌ Status for deleting an existing product should be 200').toBe(200);
-      expect(response.data!, '❌ Deleted product should have an id').toHaveProperty('id');
+      expect(response.success, '❌ La eliminación del producto debe ser exitosa').toBeTruthy();
+      expect(response.status, '❌ El status para eliminar un producto existente debe ser 200').toBe(200);
+      expect(response.data!, '❌ El producto eliminado debe tener un id').toHaveProperty('id');
     });
 
-    test('should handle deletion of non-existent product', async () => {
+    test('debería manejar la eliminación de un producto inexistente', async () => {
       const nonExistentId = 99999;
       const response = await productsApi.deleteProduct(nonExistentId);
       
-      // API might return success or 404 for non-existent products
-      expect([200, 404], '❌ Status for deleting non-existent product should be 200 or 404').toContain(response.status);
+      // La API puede devolver éxito o 404 para productos inexistentes
+      expect([200, 404], '❌ El status para eliminar producto inexistente debe ser 200 o 404').toContain(response.status);
     });
 
-    test('should handle invalid product ID for deletion', async () => {
+    test('debería manejar un ID de producto inválido para eliminación', async () => {
       const invalidId = -1;
       const response = await productsApi.deleteProduct(invalidId);
       
-      // API should handle invalid IDs gracefully
-      expect([200, 400, 404], '❌ Status for invalid product ID for deletion should be 200, 400, or 404').toContain(response.status);
+      // La API debe manejar IDs inválidos apropiadamente
+      expect([200, 400, 404], '❌ El status para ID de producto inválido en eliminación debe ser 200, 400 o 404').toContain(response.status);
     });
   });
 
   test.describe('Error Handling and Edge Cases', () => {
-    test('should handle network timeout gracefully', async () => {
-      // This test would require network simulation, 
-      // here we test basic error handling structure
+    test('debería manejar correctamente un timeout de red', async () => {
+      // Este test requeriría simulación de red,
+      // aquí solo probamos la estructura básica de manejo de errores
       try {
         const response = await productsApi.getAllProducts();
-        expect(response, '❌ Response should not be undefined in case of network timeout').toBeDefined();
+        expect(response, '❌ La respuesta no debe ser indefinida en caso de timeout de red').toBeDefined();
       } catch (error) {
-        expect(error).toBeDefined();
+        expect(error, '❌ Debe capturarse un error en caso de timeout de red').toBeDefined();
       }
     });
 
-    test('should validate external API availability', async () => {
-      const availability = await externalData.validateExternalApiAvailability();
+    test('debería validar la disponibilidad de APIs externas', async () => {
+      const disponibilidad = await externalData.validateExternalApiAvailability();
       
-      // Log availability for debugging
-      console.log('External API Availability:', availability);
+      // Log de disponibilidad para depuración
+      console.log('Disponibilidad de APIs externas:', disponibilidad);
       
-      // Test should not fail if external APIs are unavailable
-      expect(typeof availability.quotable, '❌ quotable availability should be boolean').toBe('boolean');
-      expect(typeof availability.picsum, '❌ picsum availability should be boolean').toBe('boolean');
+      // El test no debe fallar si las APIs externas no están disponibles
+      expect(typeof disponibilidad.quotable, '❌ La disponibilidad de quotable debe ser boolean').toBe('boolean');
+      expect(typeof disponibilidad.picsum, '❌ La disponibilidad de picsum debe ser boolean').toBe('boolean');
     });
   });
 });
