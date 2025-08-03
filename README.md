@@ -419,14 +419,6 @@ El proyecto incluye un workflow de GitHub Actions (`.github/workflows/playwright
 - Verificación de eliminación de carritos
 - Integración de fechas externas
 
-## 🤝 Contribuciones
-
-1. Haz un fork del repositorio
-2. Crea una rama de feature
-3. Agrega pruebas completas para nuevas funcionalidades
-4. Asegúrate de que todas las pruebas pasen
-5. Envía un pull request
-
 ## 🆘 Solución de Problemas
 
 ### Problemas Comunes
