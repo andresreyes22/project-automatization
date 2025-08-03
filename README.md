@@ -675,7 +675,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200
 - Respuesta es un array no vacío de productos
 - Cada producto tiene los campos requeridos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería obtener productos con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
@@ -686,7 +686,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Array de productos con longitud <= 5
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
@@ -697,7 +697,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Respuesta es un array (puede ser vacío)
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### GET /products/{id} - Obtener Producto por ID
 
@@ -710,7 +710,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto con id=1 y campos requeridos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería retornar 404 para un producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -721,7 +721,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 404
 - Campo success es false
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar formatos de ID de producto inválidos
 **Tipo de prueba:** Validación de parámetros
@@ -731,7 +731,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /products/0 y /products/-1
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### GET /products/categories - Obtener Todas las Categorías
 
@@ -744,7 +744,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Respuesta es un array no vacío de categorías
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### GET /products/category/{category} - Obtener Productos por Categoría
 
@@ -757,7 +757,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Todos los productos tienen category=electronics
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar categoría inválida apropiadamente
 **Tipo de prueba:** Validación de parámetros
@@ -767,7 +767,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /products/category/nonexistent-category
 **Resultados esperados:**
 - Status 200, 400 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### POST /products - Crear Producto
 
@@ -780,7 +780,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto creado con id y datos coinciden
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería crear producto con datos externos de la API quotable
 **Tipo de prueba:** Integración externa
@@ -792,7 +792,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto creado con descripción e imagen externas
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería crear producto con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
@@ -804,7 +804,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto creado con id
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar datos de producto inválidos
 **Tipo de prueba:** Validación de datos
@@ -814,7 +814,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /products con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar datos de producto con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
@@ -824,7 +824,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /products con tipos incorrectos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### PUT /products/{id} - Actualizar Producto
 
@@ -837,7 +837,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto actualizado con datos correctos
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería permitir actualización parcial de un producto
 **Tipo de prueba:** Actualización parcial
@@ -848,7 +848,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto actualizado parcialmente
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar actualización de producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -858,7 +858,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /products/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
@@ -868,7 +868,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /products/1 con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### DELETE /products/{id} - Eliminar Producto
 
@@ -881,7 +881,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Producto eliminado
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar eliminación de producto inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -891,7 +891,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /products/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar ID de producto inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
@@ -901,7 +901,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /products/-1
 **Resultados esperados:**
 - Status 200, 400 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### Manejo de Errores y Casos Límite
 
@@ -913,7 +913,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Simular timeout de red en GET /products
 **Resultados esperados:**
 - Respuesta definida o error manejado
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar la disponibilidad de APIs externas
 **Tipo de prueba:** Integración externa
@@ -923,7 +923,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Validar disponibilidad de APIs externas
 **Resultados esperados:**
 - Se loguea disponibilidad, no falla el test si no están disponibles
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ---
 
@@ -942,7 +942,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200
 - Respuesta es un array no vacío de carritos
 - Cada carrito tiene los campos requeridos y productos válidos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería obtener carritos con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
@@ -953,7 +953,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Array de carritos con longitud <= 3
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
@@ -964,7 +964,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Respuesta es un array
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### GET /carts/{id} - Obtener Carrito por ID
 
@@ -977,7 +977,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito con id=1 y campos requeridos
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería retornar 404 para un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -988,7 +988,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 404
 - Campo success es false
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar formatos de ID de carrito inválidos
 **Tipo de prueba:** Validación de parámetros
@@ -998,7 +998,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts/0 y /carts/-1
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### GET /carts/user/{userId} - Obtener Carritos por ID de Usuario
 
@@ -1011,7 +1011,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Todos los carritos tienen userId=2
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar la solicitud para un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1021,7 +1021,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts/user/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar formatos de ID de usuario inválidos
 **Tipo de prueba:** Validación de parámetros
@@ -1031,7 +1031,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts/user/0 y /carts/user/-1
 **Resultados esperados:**
 - Status 200, 400 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería obtener carritos para múltiples usuarios y validar la consistencia de userId
 **Tipo de prueba:** Consistencia de datos
@@ -1041,7 +1041,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts/user/{userId} para cada userId
 **Resultados esperados:**
 - Todos los carritos devueltos tienen el userId correspondiente
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 ### POST /carts - Crear Carrito
 
@@ -1054,7 +1054,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito creado con id y datos correctos
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería crear un carrito con fecha externa de WorldTimeAPI
 **Tipo de prueba:** Integración externa
@@ -1066,7 +1066,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito creado con fecha externa
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería crear un carrito con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
@@ -1078,7 +1078,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito creado con id
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar datos de carrito inválidos
 **Tipo de prueba:** Validación de datos
@@ -1088,7 +1088,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar datos de carrito con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
@@ -1098,7 +1098,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con tipos incorrectos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar la creación de carrito con estructura de producto inválida
 **Tipo de prueba:** Validación de estructura
@@ -1108,7 +1108,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con productos mal estructurados
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería validar que las cantidades de productos sean números positivos
 **Tipo de prueba:** Validación de negocio
@@ -1118,7 +1118,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con cantidades inválidas
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### PUT /carts/{id} - Actualizar Carrito
 
@@ -1131,7 +1131,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito actualizado con datos correctos
-**Estimación:** 2 SP
+**Estimación:**  1 SP
 
 #### Prueba: debería permitir la actualización parcial de un carrito
 **Tipo de prueba:** Actualización parcial
@@ -1142,7 +1142,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito actualizado parcialmente
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar la actualización de un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1152,7 +1152,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /carts/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
@@ -1162,7 +1162,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /carts/1 con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar la actualización de un carrito con array de productos vacío
 **Tipo de prueba:** Validación de negocio
@@ -1172,7 +1172,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /carts/1 con products vacío
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 ### DELETE /carts/{id} - Eliminar Carrito
 
@@ -1185,7 +1185,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Carrito eliminado
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar la eliminación de un carrito inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1195,7 +1195,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /carts/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería manejar ID de carrito inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
@@ -1205,7 +1205,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /carts/-1
 **Resultados esperados:**
 - Status 200, 400 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,25 SP
 
 #### Prueba: debería verificar la eliminación de un carrito intentando obtenerlo
 **Tipo de prueba:** Validación de eliminación
@@ -1217,7 +1217,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 3. Intentar recuperar carrito eliminado
 **Resultados esperados:**
 - Status 200 o 404 al recuperar
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 ### GET /carts - Filtrado por Rango de Fechas
 
@@ -1230,7 +1230,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Todas las fechas dentro del rango
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar formatos de rango de fechas inválidos
 **Tipo de prueba:** Validación de parámetros
@@ -1240,7 +1240,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts con fechas inválidas
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar un rango de fechas invertido (fin antes de inicio)
 **Tipo de prueba:** Validación de negocio
@@ -1250,7 +1250,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /carts con fechas invertidas
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### Validación de Datos y Lógica de Negocio
 
@@ -1262,7 +1262,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener carritos y validar productId y quantity
 **Resultados esperados:**
 - Todos los productId > 0 y quantity > 0
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar que las fechas de los carritos sean cadenas ISO
 **Tipo de prueba:** Validación de formato
@@ -1272,7 +1272,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener carritos y validar formato de fecha
 **Resultados esperados:**
 - Fechas válidas y en formato ISO
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar que los userId sean enteros positivos
 **Tipo de prueba:** Validación de negocio
@@ -1282,7 +1282,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener carritos y validar userId
 **Resultados esperados:**
 - Todos los userId son enteros positivos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### Manejo de Errores y Casos Límite
 
@@ -1294,7 +1294,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Crear varios carritos en paralelo
 **Resultados esperados:**
 - Todas las respuestas son 200 o 400
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar la integración con la API externa para fechas
 **Tipo de prueba:** Integración externa
@@ -1304,7 +1304,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Validar disponibilidad y obtener fecha externa
 **Resultados esperados:**
 - Fecha externa válida o test pasa si no disponible
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar la creación de carrito con IDs de producto duplicados
 **Tipo de prueba:** Validación de negocio
@@ -1314,7 +1314,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con productos duplicados
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar el límite máximo de productos en un carrito
 **Tipo de prueba:** Límite de datos
@@ -1324,7 +1324,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /carts con 100 productos
 **Resultados esperados:**
 - Status 200, 400 o 413
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 ---
 
@@ -1343,7 +1343,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 - Status 200
 - Respuesta es un array no vacío de usuarios
 - Cada usuario tiene los campos requeridos y objetos anidados válidos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería obtener usuarios con parámetros de límite y orden
 **Tipo de prueba:** Funcional positiva (parámetros)
@@ -1354,7 +1354,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Array de usuarios con longitud <= 3
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar el parámetro de límite inválido apropiadamente
 **Tipo de prueba:** Validación de parámetros
@@ -1365,7 +1365,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Respuesta es un array
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### GET /users/{id} - Obtener Usuario por ID
 
@@ -1378,7 +1378,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario con id=1 y campos requeridos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería retornar 404 para un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1389,7 +1389,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 404
 - Campo success es false
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar formatos de ID de usuario inválidos
 **Tipo de prueba:** Validación de parámetros
@@ -1399,7 +1399,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar GET /users/0 y /users/-1
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### POST /users - Crear Usuario
 
@@ -1412,7 +1412,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario creado con id y datos coinciden
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería crear usuario con datos externos de la API JSONPlaceholder
 **Tipo de prueba:** Integración externa
@@ -1424,7 +1424,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario creado con datos externos
-**Estimación:** 2 SP
+**Estimación:**  1 SP
 
 #### Prueba: debería crear usuario con datos aleatorios generados
 **Tipo de prueba:** Límite/aleatoriedad
@@ -1436,7 +1436,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario creado con id
-**Estimación:** 2 SP
+**Estimación:**  1 SP
 
 #### Prueba: debería manejar datos de usuario inválidos
 **Tipo de prueba:** Validación de datos
@@ -1446,7 +1446,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /users con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar datos de usuario con tipos de datos inválidos
 **Tipo de prueba:** Validación de tipos
@@ -1456,7 +1456,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /users con tipos incorrectos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar creación de usuario con emails inválidos
 **Tipo de prueba:** Validación de formato
@@ -1466,7 +1466,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /users con emails inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar creación de usuario con strings edge case
 **Tipo de prueba:** Límite de datos
@@ -1476,7 +1476,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /users con strings edge case
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### PUT /users/{id} - Actualizar Usuario
 
@@ -1489,7 +1489,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario actualizado con datos correctos
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería permitir la actualización parcial de un usuario
 **Tipo de prueba:** Actualización parcial
@@ -1500,7 +1500,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario actualizado parcialmente
-**Estimación:** 2 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar la actualización de un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1510,7 +1510,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /users/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar datos inválidos en la actualización
 **Tipo de prueba:** Validación de datos
@@ -1520,7 +1520,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar PUT /users/1 con datos inválidos
 **Resultados esperados:**
 - Status 200 o 400
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### DELETE /users/{id} - Eliminar Usuario
 
@@ -1533,7 +1533,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 **Resultados esperados:**
 - Status 200
 - Usuario eliminado
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar la eliminación de un usuario inexistente
 **Tipo de prueba:** Negativa (no encontrado)
@@ -1543,7 +1543,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /users/99999
 **Resultados esperados:**
 - Status 200 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería manejar ID de usuario inválido para eliminación
 **Tipo de prueba:** Validación de parámetros
@@ -1553,7 +1553,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar DELETE /users/-1
 **Resultados esperados:**
 - Status 200, 400 o 404
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### Validación de Datos y Restricciones
 
@@ -1565,7 +1565,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener usuarios y validar formato de email
 **Resultados esperados:**
 - Todos los emails cumplen formato válido
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar el formato del número de teléfono en las respuestas de usuario
 **Tipo de prueba:** Validación de formato
@@ -1575,7 +1575,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener usuarios y validar formato de teléfono
 **Resultados esperados:**
 - Todos los teléfonos son strings no vacíos
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar el formato de las coordenadas de geolocalización
 **Tipo de prueba:** Validación de formato
@@ -1585,7 +1585,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Obtener usuario y validar latitud/longitud
 **Resultados esperados:**
 - Latitud entre -90 y 90, longitud entre -180 y 180
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 ### Manejo de Errores y Casos Límite
 
@@ -1597,7 +1597,7 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 1. Enviar POST /users con datos no objeto
 **Resultados esperados:**
 - Status 200 o 400, o error manejado
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 #### Prueba: debería validar la resiliencia de la integración con APIs externas
 **Tipo de prueba:** Integración externa
@@ -1608,6 +1608,6 @@ Esta sección documenta exhaustivamente todos los casos de prueba automatizados,
 2. Obtener datos externos y crear usuario
 **Resultados esperados:**
 - Se loguea disponibilidad, no falla el test si no están disponibles
-**Estimación:** 1 SP
+**Estimación:**  0,5 SP
 
 
