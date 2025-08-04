@@ -259,7 +259,7 @@ Durante la ejecución de los tests automatizados sobre la API pública https://f
 - Los fallos observados **no corresponden a errores de lógica en el código de automatización**, sino a limitaciones o comportamientos inesperados de la API de demo o de los servicios externos.
 
 ## 4. Recomendaciones
-- Para una API real de producción, los asserts deberían ser estrictos y esperar siempre los códigos de estado correctos, por ende se debe validar el comportamiento de la api de prueba para mitigar estos posibles errores 
+- Los end points en algunos momentos no respondes correctamente al momento de hacer el envio de datos mal formados por ende se debe validar el comportamiento de la api de prueba para mitigar estos posibles errores 
 
 
 ---
